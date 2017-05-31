@@ -1,0 +1,37 @@
+{
+  "name": "acquiropay/omnipay-acquiropay",
+  "description": "AcquiroPay driver for the Omnipay payment processing library",
+  "keywords": [
+    "omnipay",
+    "acquiropay"
+  ],
+  "homepage": "https://github.com/acquiropay/omnipay-acquiropay",
+  "license": "MIT",
+  "require": {
+    "php": ">=5.3.0",
+    "omnipay/common": "~2.0"
+  },
+  "require-dev": {
+    "omnipay/tests": "~2.0",
+    "scrutinizer/ocular": "~1.1",
+    "larapack/dd": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\AcquiroPay\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Omnipay\\AcquiroPay\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
