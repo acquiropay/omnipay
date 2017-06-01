@@ -16,7 +16,6 @@ class AuthorizeRequestTest extends TestCase
 
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
 
-
         $this->request->setMerchantId(getenv('MERCHANT_ID'));
         $this->request->setProductId(getenv('PRODUCT_ID'));
         $this->request->setSecretWord(getenv('SECRET'));
@@ -24,6 +23,7 @@ class AuthorizeRequestTest extends TestCase
 
     public function testGetData()
     {
+        // Firstly, we test data without optional parameters
         $this->request
             ->setAmount('10.00')
             ->setCard($card = $this->getValidCard())
@@ -47,5 +47,22 @@ class AuthorizeRequestTest extends TestCase
         $token = md5(getenv('MERCHANT_ID') . getenv('PRODUCT_ID') . '10.00' . 'foo' . getenv('SECRET'));
 
         $this->assertSame($token, $data['token']);
+
+        // Ensure that optional parameters not in data array
+        $this->assertArrayNotHasKey('cf2', $data);
+        $this->assertArrayNotHasKey('cf3', $data);
+        $this->assertArrayNotHasKey('cb_url', $data);
+
+        // Now we set optional parameters and check them
+        $this->request
+            ->setCf2('cf2_foo')
+            ->setCf3('cf3_foo')
+            ->setCallbackUrl('https://example.com/callback');
+
+        $data = $this->request->getData();
+
+        $this->assertSame('cf2_foo', $data['cf2']);
+        $this->assertSame('cf3_foo', $data['cf3']);
+        $this->assertSame('https://example.com/callback', $data['cb_url']);
     }
 }
