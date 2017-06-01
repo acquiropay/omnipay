@@ -47,6 +47,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->getParameter('metadata');
     }
 
+    public function getRequestToken()
+    {
+        return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getSecretWord());
+    }
+
     public function sendData($data)
     {
         $url = $this->getEndpoint() . '?' . http_build_query($data, '', '&');

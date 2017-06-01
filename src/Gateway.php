@@ -2,6 +2,7 @@
 
 namespace Omnipay\AcquiroPay;
 
+use Omnipay\AcquiroPay\Message\AuthorizeRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -70,7 +71,7 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return RequestInterface
+     * @return AuthorizeRequest
      */
     public function authorize(array $options = array())
     {

@@ -11,16 +11,16 @@ class GatewayTest extends GatewayTestCase
     /** @var Gateway */
     protected $gateway;
 
-    /** @var array */
-    protected $options;
-
     public function setUp()
     {
         parent::setUp();
 
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+    }
 
-        $this->options = array(
+    public function testAuthorize()
+    {
+        $options = array(
             'amount' => '10.00',
             'card' => new CreditCard(array(
                 'firstName' => 'Example',
@@ -30,17 +30,12 @@ class GatewayTest extends GatewayTestCase
                 'expiryYear' => '2020',
                 'cvv' => '123',
             )),
+            'transactionId' => uniqid(),
+            'clientIp' => '127.0.0.1',
         );
-    }
 
-    public function testAuthorize()
-    {
-        $this->setMockHttpResponse('AuthorizeSuccess.txt');
+        $request = $this->gateway->authorize($options);
 
-        $response = $this->gateway->authorize($this->options)->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('1234', $response->getTransactionReference());
-        $this->assertNull($response->getMessage());
+        $this->assertInstanceOf('Omnipay\AcquiroPay\Message\AuthorizeRequest', $request);
     }
 }
