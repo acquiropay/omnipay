@@ -24,6 +24,48 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * @return array
+     */
+    public function getDefaultParameters()
+    {
+        return array(
+            'merchantId' => '',
+            'productId' => '',
+            'secretWord' => '',
+        );
+    }
+
+    public function getMerchantId()
+    {
+        return $this->getParameter('merchantId');
+    }
+
+    public function setMerchantId($value)
+    {
+        return $this->setParameter('merchantId', $value);
+    }
+
+    public function getProductId()
+    {
+        return $this->getParameter('productId');
+    }
+
+    public function setProductId($value)
+    {
+        return $this->setParameter('productId', $value);
+    }
+
+    public function getSecretWord()
+    {
+        return $this->getParameter('secretWord');
+    }
+
+    public function setSecretWord($value)
+    {
+        return $this->setParameter('secretWord', $value);
+    }
+
+    /**
      * Authorize request
      *
      * @param array $options
