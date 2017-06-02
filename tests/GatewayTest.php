@@ -22,20 +22,14 @@ class GatewayTest extends GatewayTestCase
     {
         $options = array(
             'amount' => '10.00',
-            'card' => new CreditCard(array(
-                'firstName' => 'Example',
-                'lastName' => 'User',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => '2020',
-                'cvv' => '123',
-            )),
-            'transactionId' => uniqid(),
+            'card' => new CreditCard($this->getValidCard()),
+            'transactionId' => uniqid('test_', true),
             'clientIp' => '127.0.0.1',
         );
 
         $request = $this->gateway->authorize($options);
 
         $this->assertInstanceOf('Omnipay\AcquiroPay\Message\AuthorizeRequest', $request);
+        $this->assertSame($options['amount'], $request->getAmount());
     }
 }

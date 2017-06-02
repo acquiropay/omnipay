@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * AcquiroPay Gateway
+ */
 namespace Omnipay\AcquiroPay;
 
 use Omnipay\AcquiroPay\Message\AuthorizeRequest;
@@ -19,12 +22,20 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Gateway extends AbstractGateway
 {
+    /**
+     * Get gateway display name.
+     *
+     * This can be used by carts to get the display name for each gateway.
+     * @return string
+     */
     public function getName()
     {
         return 'AcquiroPay';
     }
 
     /**
+     * Get the gateway parameters.
+     *
      * @return array
      */
     public function getDefaultParameters()
@@ -36,31 +47,64 @@ class Gateway extends AbstractGateway
         );
     }
 
+    /**
+     * Get a merchant id.
+     *
+     * @return string
+     */
     public function getMerchantId()
     {
         return $this->getParameter('merchantId');
     }
 
+    /**
+     * Set a merchant id.
+     *
+     * @param string $value
+     * @return $this
+     */
     public function setMerchantId($value)
     {
         return $this->setParameter('merchantId', $value);
     }
 
+    /**
+     * Get a merchant's product id.
+     *
+     * @return string
+     */
     public function getProductId()
     {
         return $this->getParameter('productId');
     }
 
+    /**
+     * Set a merchant's product id.
+     *
+     * @param string $value
+     * @return $this
+     */
     public function setProductId($value)
     {
         return $this->setParameter('productId', $value);
     }
 
+    /**
+     * Get a secret word.
+     *
+     * @return string
+     */
     public function getSecretWord()
     {
         return $this->getParameter('secretWord');
     }
 
+    /**
+     * Set a secret word.
+     *
+     * @param string $value
+     * @return $this
+     */
     public function setSecretWord($value)
     {
         return $this->setParameter('secretWord', $value);
@@ -69,13 +113,18 @@ class Gateway extends AbstractGateway
     /**
      * Authorize request
      *
+     * An Authorize request is similar to a purchase request but the
+     * charge issues an authorization (or pre-authorization), and no money
+     * is transferred.  The transaction will need to be captured later
+     * in order to effect payment.
+     *
      * @param array $options
      *
-     * @return AuthorizeRequest
+     * @return AuthorizeRequest|\Omnipay\Common\Message\RequestInterface
      */
     public function authorize(array $options = array())
     {
-        return $this->createRequest('\\Omnipay\\AcquiroPay\\Message\\AuthorizeRequest', $options);
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\AuthorizeRequest', $options);
     }
 
     public function __call($name, $arguments)
