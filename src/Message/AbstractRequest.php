@@ -92,14 +92,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @return mixed
-     */
-    public function getMetadata()
-    {
-        return $this->getParameter('metadata');
-    }
-
-    /**
      * Get a request token.
      *
      * @return string
