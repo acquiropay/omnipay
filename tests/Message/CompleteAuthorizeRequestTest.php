@@ -33,6 +33,23 @@ class CompleteAuthorizeRequestTest extends TestCase
             'MD' => $md,
             'token' => $this->request->getRequestToken(),
         );
+
         $this->assertSame($expected, $this->request->getData());
+    }
+
+    public function testSendPreauthorizationSuccess()
+    {
+        $this->setMockHttpResponse('CompleteAuthorizePreauthorizationSuccess.txt');
+
+        $this->request
+            ->setMD('foo')
+            ->setPaRes('bar')
+            ->setTransactionId(mt_rand(1, 100));
+
+        $response = $this->request->send();
+        $data = $response->getData();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('PREAUTHORIZATION', $data['extended_status']);
     }
 }

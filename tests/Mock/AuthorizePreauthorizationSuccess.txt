@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/xml; charset=utf-8
+Status: 200 OK
+
+<response>
+    <payment_id>b86ec39cc1194ee893df3cea27a98ec9</payment_id>
+    <status>OK</status>
+    <extended_id>910bcdbb2efa4b9c85ad32fefc0596bf</extended_id>
+    <extended_status>PREAUTHORIZATION</extended_status>
+    <transaction_status>PREAUTHORIZATION</transaction_status>
+    <datetime>2017-06-05 12:53:03+0000</datetime>
+    <duplicate>false</duplicate>
+    <additional>
+        <reestr_id></reestr_id>
+        <date_post></date_post>
+        <id>b86ec39cc1194ee893df3cea27a98ec9</id>
+        <pp_identity>card_visa</pp_identity>
+    </additional>
+</response>

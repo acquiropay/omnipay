@@ -1,0 +1,30 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/xml; charset=utf-8
+Status: 200 OK
+
+<response>
+    <payment_id>a8354a40aa494e9f8ead2ce226dee1c7</payment_id>
+    <status>3DSECURE</status>
+    <extended_id>bb9770aba9514201b84df3d1a98bbd71</extended_id>
+    <extended_status>3DSECURE</extended_status>
+    <transaction_status>3DSECURE</transaction_status>
+    <datetime>2017-06-05 13:29:18+0000</datetime>
+    <duplicate>false</duplicate>
+    <additional>
+        <reestr_id></reestr_id>
+        <date_post></date_post>
+        <secure3d>
+            <back-url-var-name>TermUrl</back-url-var-name>
+            <auth-form>https://3dstest.mdmbank.ru/way4acs/pa?id=WTVX31EpSSdYKeOL_iKxVQ</auth-form>
+            <auth-form-method>POST</auth-form-method>
+            <retransmit>
+                <PaReq>foo</PaReq>
+                <MD>bar</MD>
+            </retransmit>
+        </secure3d>
+        <id>a8354a40aa494e9f8ead2ce226dee1c7</id>
+        <pp_identity>card_master_card</pp_identity>
+    </additional>
+</response>

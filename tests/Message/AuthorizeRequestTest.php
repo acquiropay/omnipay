@@ -58,9 +58,9 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('https://example.com/callback', $data['cb_url']);
     }
 
-    public function testSendSuccess()
+    public function testSendPreauthorizationSuccess()
     {
-        $this->setMockHttpResponse('AuthorizeSuccess.txt');
+        $this->setMockHttpResponse('AuthorizePreauthorizationSuccess.txt');
 
         $card = new CreditCard(array(
             'firstName' => 'CARD',
@@ -83,9 +83,47 @@ class AuthorizeRequestTest extends TestCase
         $data = $response->getData();
 
         $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
         $this->assertNotNull($response->getTransactionReference());
-        $this->assertEquals('PURCHASE', $data['extended_status']);
-        $this->assertEquals('PURCHASE', $data['transaction_status']);
+        $this->assertEquals('PREAUTHORIZATION', $data['extended_status']);
+        $this->assertEquals('PREAUTHORIZATION', $data['transaction_status']);
+    }
+
+    public function testSend3DSecureSuccess()
+    {
+        $this->setMockHttpResponse('Authorize3DSecureSuccess.txt');
+
+        $card = new CreditCard(array(
+            'firstName' => 'CARD',
+            'lastName' => 'HOLDER',
+            'number' => '4000000000000002',
+            'expiryMonth' => 12,
+            'expiryYear' => '2999',
+            'cvv' => 123,
+        ));
+
+        $this->request
+            ->setTestMode(true)
+            ->setAmount('10.00')
+            ->setCard($card)
+            ->setTransactionId($transactionId = uniqid())
+            ->setClientIp('127.0.0.1');
+
+        $response = $this->request->send();
+
+        $data = $response->getData();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isRedirect());
+        $this->assertSame('https://3dstest.mdmbank.ru/way4acs/pa?id=WTVX31EpSSdYKeOL_iKxVQ',
+            $response->getRedirectUrl());
+        $this->assertSame('POST', $response->getRedirectMethod());
+        $this->assertSame(array('PaReq' => 'foo', 'MD' => 'bar'), $response->getRedirectData());
+
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response->getRedirectResponse());
+        $this->assertNotNull($response->getTransactionReference());
+        $this->assertEquals('3DSECURE', $data['extended_status']);
+        $this->assertEquals('3DSECURE', $data['transaction_status']);
     }
 
     public function testSendError()

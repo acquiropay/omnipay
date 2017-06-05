@@ -63,6 +63,8 @@ class CompleteAuthorizeRequest extends AbstractRequest
      */
     public function getData()
     {
+        $this->validate('transactionId', 'MD', 'PaRes');
+
         return array(
             'opcode' => 3,
             'payment_id' => $this->getTransactionId(),
@@ -81,7 +83,7 @@ class CompleteAuthorizeRequest extends AbstractRequest
     {
         return md5(
             $this->getMerchantId()
-            . $this->httpRequest->get('payment_id')
+            . $this->getTransactionId()
             . $this->getSecretWord()
         );
     }
