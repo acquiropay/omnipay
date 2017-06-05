@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\AcquiroPay\Tests;
+namespace Omnipay\AcquiroPay\Tests\Unit\Message;
 
 use Mockery;
 use Mockery\Mock;

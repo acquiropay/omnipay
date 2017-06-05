@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\AcquiroPay\Tests;
+namespace Omnipay\AcquiroPay\Tests\Unit\Message;
 
 use Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest;
 use Omnipay\Tests\TestCase;
