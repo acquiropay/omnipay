@@ -98,7 +98,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     public function getRequestToken()
     {
-        return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getSecretWord());
+        return md5($this->getMerchantId() . $this->getProductId() . (float)$this->getAmount() . $this->getTransactionId() . $this->getSecretWord());
     }
 
     /**
@@ -109,10 +109,24 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     public function sendData($data)
     {
-        $url = $this->getEndpoint() . '?' . http_build_query($data, '', '&');
-        $httpResponse = $this->httpClient->get($url)->send();
+        $url = $this->getEndpoint();
 
-        return $this->createResponse($httpResponse->getBody());
+        $options = array();
+
+        if ($this->getTestMode()) {
+            $options = array(
+                'verify' => false,
+            );
+        }
+
+        $httpResponse = $this->httpClient
+            ->post($url, array(), $data, $options)
+            ->send();
+
+        $contents = $httpResponse->getBody(true);
+        $xml = simplexml_load_string($contents);
+
+        return $this->createResponse($xml);
     }
 
     /**

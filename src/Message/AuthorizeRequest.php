@@ -17,7 +17,7 @@ class AuthorizeRequest extends AbstractRequest
     /**
      * @param $value
      *
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setCf2($value)
     {
@@ -32,7 +32,7 @@ class AuthorizeRequest extends AbstractRequest
     /**
      * @param $value
      *
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setCf3($value)
     {
@@ -47,7 +47,7 @@ class AuthorizeRequest extends AbstractRequest
     /**
      * @param $value
      *
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setCallbackUrl($value)
     {

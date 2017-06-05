@@ -3,6 +3,7 @@
 namespace Omnipay\AcquiroPay\Tests;
 
 use Omnipay\AcquiroPay\Message\AuthorizeRequest;
+use Omnipay\Common\CreditCard;
 use Omnipay\Tests\TestCase;
 
 class AuthorizeRequestTest extends TestCase
@@ -44,7 +45,7 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame($card['cvv'], $data['cvv']);
         $this->assertSame('card', $data['pp_identity']);
 
-        $token = md5(getenv('MERCHANT_ID') . getenv('PRODUCT_ID') . '10.00' . 'foo' . getenv('SECRET'));
+        $token = md5(getenv('MERCHANT_ID') . getenv('PRODUCT_ID') . '10' . 'foo' . getenv('SECRET'));
 
         $this->assertSame($token, $data['token']);
 
@@ -64,5 +65,33 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('cf2_foo', $data['cf2']);
         $this->assertSame('cf3_foo', $data['cf3']);
         $this->assertSame('https://example.com/callback', $data['cb_url']);
+    }
+
+    public function testSendSuccess()
+    {
+        $card = new CreditCard(array(
+            'firstName' => 'CARD',
+            'lastName' => 'HOLDER',
+            'number' => '4000000000000002',
+            'expiryMonth' => 12,
+            'expiryYear' => '2999',
+            'cvv' => 123,
+        ));
+
+        $this->request
+            ->setTestMode(true)
+            ->setAmount('10.00')
+            ->setCard($card)
+            ->setTransactionId($transactionId = uniqid())
+            ->setClientIp('127.0.0.1');
+
+        $response = $this->request->send();
+
+        $data = $response->getData();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertNotNull($response->getTransactionReference());
+        $this->assertEquals('PURCHASE', $data['extended_status']);
+        $this->assertEquals('PURCHASE', $data['transaction_status']);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Omnipay\AcquiroPay\Message;
 
-use Guzzle\Http\EntityBody;
 use Omnipay\Common\Message\AbstractResponse;
 
 /**
@@ -10,44 +9,26 @@ use Omnipay\Common\Message\AbstractResponse;
  */
 class Response extends AbstractResponse
 {
-    /** @var EntityBody */
-    protected $data;
-
-    protected $decodedData;
-
     public function getData()
     {
-        if ($this->decodedData === null) {
-            /** @var EntityBody|string $data */
-            $data = parent::getData();
+        $parent = parent::getData();
 
-            if ($data instanceof EntityBody) {
-                $this->decodedData = json_decode(stream_get_contents($data->getStream()), true);
-            } else {
-                parse_str($data, $this->decodedData);
-            }
-
-            if ($this->decodedData === null) {
-                $this->decodedData = array();
-            }
-        }
-
-        return $this->decodedData;
+        return json_decode(json_encode((array)$parent), true);
     }
 
     public function isSuccessful()
     {
         $data = $this->getData();
 
-        return isset($data['success']);
+        return isset($data['status']) && $data['status'] !== 'KO';
     }
 
     public function getTransactionReference()
     {
         $data = $this->getData();
 
-        if (isset($data['reference'])) {
-            return $data['reference'];
+        if (isset($data['extended_id'])) {
+            return $data['extended_id'];
         }
 
         return null;
