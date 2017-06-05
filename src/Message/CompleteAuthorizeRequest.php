@@ -10,6 +10,50 @@ namespace Omnipay\AcquiroPay\Message;
  */
 class CompleteAuthorizeRequest extends AbstractRequest
 {
+    /**
+     * Get MD.
+     *
+     * @return string
+     */
+    public function getMD()
+    {
+        return $this->getParameter('MD');
+    }
+
+    /**
+     * Set MD.
+     *
+     * @param string $value
+     *
+     * @return static|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function setMD($value)
+    {
+        return $this->setParameter('MD', $value);
+    }
+
+    /**
+     * Get PaRes.
+     *
+     * @return string
+     */
+    public function getPaRes()
+    {
+        return $this->getParameter('PaRes');
+    }
+
+    /**
+     * Set PaRes.
+     *
+     * @param string $value
+     *
+     * @return static|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function setPaRes($value)
+    {
+        return $this->setParameter('PaRes', $value);
+    }
+
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
@@ -21,13 +65,18 @@ class CompleteAuthorizeRequest extends AbstractRequest
     {
         return array(
             'opcode' => 3,
-            'payment_id' => $this->httpRequest->get('payment_id'),
-            'PaRes' => $this->httpRequest->get('PaRes'),
-            'MD' => $this->httpRequest->get('MD'),
+            'payment_id' => $this->getTransactionId(),
+            'PaRes' => $this->getPaRes(),
+            'MD' => $this->getMD(),
             'token' => $this->getRequestToken(),
         );
     }
 
+    /**
+     * Get a request token.
+     *
+     * @return string
+     */
     public function getRequestToken()
     {
         return md5(
