@@ -9,13 +9,20 @@ namespace Omnipay\AcquiroPay\Message;
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    /**
+     * Get custom field 2.
+     *
+     * @return string
+     */
     public function getCf2()
     {
         return $this->getParameter('cf2');
     }
 
     /**
-     * @param $value
+     * Set custom field 2.
+     *
+     * @param string $value
      *
      * @return static|\Omnipay\Common\Message\AbstractRequest
      */
@@ -24,13 +31,20 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('cf2', $value);
     }
 
+    /**
+     * Get custom field 3.
+     *
+     * @return string
+     */
     public function getCf3()
     {
         return $this->getParameter('cf3');
     }
 
     /**
-     * @param $value
+     * Set custom field 3.
+     *
+     * @param string $value
      *
      * @return static|\Omnipay\Common\Message\AbstractRequest
      */
@@ -39,13 +53,20 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('cf3', $value);
     }
 
+    /**
+     * Get callback URL.
+     *
+     * @return string
+     */
     public function getCallbackUrl()
     {
         return $this->getParameter('callbackUrl');
     }
 
     /**
-     * @param $value
+     * Set callback URL.
+     *
+     * @param string $value
      *
      * @return static|\Omnipay\Common\Message\AbstractRequest
      */
@@ -54,6 +75,12 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('callbackUrl', $value);
     }
 
+    /**
+     * Get the raw data array for this message. The format of this varies from gateway to
+     * gateway, but will usually be either an associative array, or a SimpleXMLElement.
+     *
+     * @return array
+     */
     public function getData()
     {
         $this->validate(

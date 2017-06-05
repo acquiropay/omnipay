@@ -139,6 +139,16 @@ class Gateway extends AbstractGateway
 
     public function __call($name, $arguments)
     {
+        // AUTHORIZE - 0
+        // COMPLETE AUTHORIZE - 3
+        // CAPTURE - 13
+
+        // PURCHASE - 0
+        // COMPLETE PURCHASE - 3
+
+        // REFUND - 1
+        // VOID - 1
+
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface purchase(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())

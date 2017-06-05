@@ -28,7 +28,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected $testEndpoint = 'https://gateway.acqp.co';
 
     /**
-     * Get a merchant id.
+     * Get merchant id.
      *
      * @return string|null
      */
@@ -38,10 +38,12 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Set a merchant id.
+     * Set merchant id.
      *
      * @param string $value
+     *
      * @return BaseAbstractRequest|AbstractRequest
+     *
      * @throws RuntimeException
      */
     public function setMerchantId($value)
@@ -50,7 +52,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Get a merchant's product id.
+     * Get product id.
      *
      * @return string|null
      */
@@ -60,10 +62,12 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Set a merchant's product id.
+     * Set product id.
      *
      * @param string $value
+     *
      * @return BaseAbstractRequest|AbstractRequest
+     *
      * @throws RuntimeException
      */
     public function setProductId($value)
@@ -82,8 +86,12 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * Set product secret word.
+     *
      * @param string $value
+     *
      * @return BaseAbstractRequest
+     *
      * @throws RuntimeException
      */
     public function setSecretWord($value)
@@ -105,6 +113,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Send the request with specified data
      *
      * @param  mixed $data The data to send
+     *
      * @return ResponseInterface
      */
     public function sendData($data)
@@ -130,6 +139,8 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * Get endpoint.
+     *
      * @return string
      */
     protected function getEndpoint()
@@ -138,6 +149,8 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * Create response.
+     *
      * @param $data
      * @return Response
      */

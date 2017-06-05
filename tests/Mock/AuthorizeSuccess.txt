@@ -1,7 +1,22 @@
 HTTP/1.1 200 OK
 Server: Apache
 Date: Sun, 11 May 2014 21:17:31 GMT
-Content-Type: application/json; charset=utf-8
+Content-Type: application/xml; charset=utf-8
 Status: 200 OK
 
-{"success":true,"reference":"1234"}
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+   <payment_id>67c41ab5359547eb872748686739b3ec</payment_id>
+   <status>OK</status>
+   <extended_id>67686caa433b4b3fb8d3e2580930fe84</extended_id>
+   <extended_status>PURCHASE</extended_status>
+   <transaction_status>PURCHASE</transaction_status>
+   <datetime>2017-06-05 12:24:54+0000</datetime>
+   <duplicate>false</duplicate>
+   <additional>
+      <reestr_id />
+      <date_post />
+      <id>67c41ab5359547eb872748686739b3ec</id>
+      <pp_identity>card_visa</pp_identity>
+   </additional>
+</response>

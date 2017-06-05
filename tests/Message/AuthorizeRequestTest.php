@@ -16,10 +16,6 @@ class AuthorizeRequestTest extends TestCase
         parent::setUp();
 
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
-
-        $this->request->setMerchantId(getenv('MERCHANT_ID'));
-        $this->request->setProductId(getenv('PRODUCT_ID'));
-        $this->request->setSecretWord(getenv('SECRET'));
     }
 
     public function testGetData()
@@ -27,27 +23,22 @@ class AuthorizeRequestTest extends TestCase
         // Firstly, we test data without optional parameters
         $this->request
             ->setAmount('10.00')
-            ->setCard($card = $this->getValidCard())
+            ->setCard($card = new CreditCard($this->getValidCard()))
             ->setTransactionId('foo')
             ->setClientIp('127.0.0.1');
 
         $data = $this->request->getData();
 
         $this->assertSame(0, $data['opcode']);
-        $this->assertSame(getenv('PRODUCT_ID'), $data['product_id']);
         $this->assertSame(10.00, $data['amount']);
         $this->assertSame('foo', $data['cf']);
         $this->assertSame('127.0.0.1', $data['ip_address']);
-        $this->assertSame($card['number'], $data['pan']);
-        $this->assertSame($card['firstName'] . ' ' . $card['lastName'], $data['cardholder']);
-        $this->assertSame($card['expiryMonth'], $data['exp_month']);
-        $this->assertSame($card['expiryYear'], $data['exp_year']);
-        $this->assertSame($card['cvv'], $data['cvv']);
+        $this->assertSame($card->getNumber(), $data['pan']);
+        $this->assertSame($card->getName(), $data['cardholder']);
+        $this->assertSame($card->getExpiryMonth(), $data['exp_month']);
+        $this->assertSame($card->getExpiryYear(), $data['exp_year']);
+        $this->assertSame($card->getCvv(), $data['cvv']);
         $this->assertSame('card', $data['pp_identity']);
-
-        $token = md5(getenv('MERCHANT_ID') . getenv('PRODUCT_ID') . '10' . 'foo' . getenv('SECRET'));
-
-        $this->assertSame($token, $data['token']);
 
         // Ensure that optional parameters not in data array
         $this->assertArrayNotHasKey('cf2', $data);
@@ -69,6 +60,8 @@ class AuthorizeRequestTest extends TestCase
 
     public function testSendSuccess()
     {
+        $this->setMockHttpResponse('AuthorizeSuccess.txt');
+
         $card = new CreditCard(array(
             'firstName' => 'CARD',
             'lastName' => 'HOLDER',
@@ -93,5 +86,30 @@ class AuthorizeRequestTest extends TestCase
         $this->assertNotNull($response->getTransactionReference());
         $this->assertEquals('PURCHASE', $data['extended_status']);
         $this->assertEquals('PURCHASE', $data['transaction_status']);
+    }
+
+    public function testSendError()
+    {
+        $this->setMockHttpResponse('AuthorizeFailure.txt');
+
+        $card = new CreditCard(array(
+            'firstName' => 'CARD',
+            'lastName' => 'HOLDER',
+            'number' => '4000000000000002',
+            'expiryMonth' => 12,
+            'expiryYear' => '2999',
+            'cvv' => 123,
+        ));
+
+        $this->request
+            ->setTestMode(true)
+            ->setAmount('10.00')
+            ->setCard($card)
+            ->setTransactionId($transactionId = uniqid())
+            ->setClientIp('127.0.0.1');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
     }
 }
