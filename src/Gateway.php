@@ -3,14 +3,15 @@
 /**
  * AcquiroPay Gateway
  */
+
 namespace Omnipay\AcquiroPay;
 
 use Omnipay\AcquiroPay\Message\AuthorizeRequest;
+use Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * @method RequestInterface completeAuthorize(array $options = array())
  * @method RequestInterface capture(array $options = array())
  * @method RequestInterface purchase(array $options = array())
  * @method RequestInterface completePurchase(array $options = array())
@@ -120,17 +121,24 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return AuthorizeRequest|\Omnipay\Common\Message\RequestInterface
+     * @return AuthorizeRequest|RequestInterface
      */
     public function authorize(array $options = array())
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\AuthorizeRequest', $options);
     }
 
+    /**
+     * @param array $options
+     * @return CompleteAuthorizeRequest|RequestInterface
+     */
+    public function completeAuthorize(array $options = array())
+    {
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest', $options);
+    }
+
     public function __call($name, $arguments)
     {
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface purchase(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
