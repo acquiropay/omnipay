@@ -154,6 +154,20 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\AcquiroPay\Message\CaptureRequest', $options);
     }
 
+    /**
+     * Purchase request.
+     *
+     * Authorize and immediately capture an amount on the customers card.
+     *
+     * @param array $options
+     *
+     * @return Message\PurchaseRequest
+     */
+    public function purchase(array $options = array())
+    {
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\PurchaseRequest', $options);
+    }
+
     public function __call($name, $arguments)
     {
         // AUTHORIZE - 0

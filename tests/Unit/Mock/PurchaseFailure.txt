@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/xml; charset=utf-8
+Status: 200 OK
+
+<response>
+    <payment_id>66cfff6fb07e48acb112797d8241114b</payment_id>
+    <status>KO</status>
+    <extended_id>db8f63e36dcd4925baddd435676820c0</extended_id>
+    <extended_status>DECLINE</extended_status>
+    <transaction_status>DECLINE</transaction_status>
+    <datetime>2017-06-06 14:15:51+0000</datetime>
+    <duplicate>false</duplicate>
+    <additional>
+        <reestr_id></reestr_id>
+        <date_post></date_post>
+        <id>66cfff6fb07e48acb112797d8241114b</id>
+        <pp_identity>card_master_card</pp_identity>
+    </additional>
+</response>
