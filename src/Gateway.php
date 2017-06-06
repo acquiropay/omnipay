@@ -9,6 +9,7 @@ namespace Omnipay\AcquiroPay;
 use Omnipay\AcquiroPay\Message\AuthorizeRequest;
 use Omnipay\AcquiroPay\Message\CaptureRequest;
 use Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest;
+use Omnipay\AcquiroPay\Message\PurchaseRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -45,7 +46,7 @@ class Gateway extends AbstractGateway
     {
         return array(
             'merchantId' => '',
-            'productId'  => '',
+            'productId' => '',
             'secretWord' => '',
         );
     }
@@ -166,11 +167,25 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return Message\PurchaseRequest
+     * @return PurchaseRequest
      */
     public function purchase(array $options = array())
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\PurchaseRequest', $options);
+    }
+
+    /**
+     * Complete purchase request.
+     *
+     * Handle return from off-site gateways after purchase
+     *
+     * @param array $options
+     *
+     * @return RequestInterface|void
+     */
+    public function completePurchase(array $options = array())
+    {
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\CompletePurchaseRequest', $options);
     }
 
     public function __call($name, $arguments)
