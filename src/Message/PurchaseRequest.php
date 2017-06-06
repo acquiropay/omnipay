@@ -92,18 +92,18 @@ class PurchaseRequest extends AuthorizeRequest
         $card->validate();
 
         $data = array(
-            'opcode' => 0,
-            'product_id' => $this->getProductId(),
-            'amount' => $this->getAmount(),
-            'cf' => $this->getTransactionId(),
-            'ip_address' => $this->getClientIp(),
-            'pan' => $card->getNumber(),
-            'cardholder' => $card->getName(),
-            'exp_month' => $card->getExpiryMonth(),
-            'exp_year' => $card->getExpiryYear(),
-            'cvv' => $card->getCvv(),
+            'opcode'      => 0,
+            'product_id'  => $this->getProductId(),
+            'amount'      => $this->getAmount(),
+            'cf'          => $this->getTransactionId(),
+            'ip_address'  => $this->getClientIp(),
+            'pan'         => $card->getNumber(),
+            'cardholder'  => $card->getName(),
+            'exp_month'   => $card->getExpiryMonth(),
+            'exp_year'    => $card->getExpiryYear(),
+            'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
-            'token' => $this->getRequestToken(),
+            'token'       => $this->getRequestToken(),
         );
 
         if ($this->getCf2()) {
@@ -128,6 +128,6 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function getRequestToken()
     {
-        return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getSecretWord());
+        return md5($this->getMerchantId().$this->getProductId().$this->getAmount().$this->getTransactionId().$this->getSecretWord());
     }
 }

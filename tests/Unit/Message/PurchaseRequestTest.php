@@ -34,21 +34,21 @@ class PurchaseRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $token = md5('merchant-1' . 'product-2' . '10.00' . 'foo' . 'secret-3');
+        $token = md5('merchant-1'.'product-2'.'10.00'.'foo'.'secret-3');
 
         $expected = array(
-            'opcode' => 0,
-            'product_id' => 'product-2',
-            'amount' => '10.00',
-            'cf' => 'foo',
-            'ip_address' => '127.0.0.1',
-            'pan' => $card->getNumber(),
-            'cardholder' => $card->getName(),
-            'exp_month' => $card->getExpiryMonth(),
-            'exp_year' => $card->getExpiryYear(),
-            'cvv' => $card->getCvv(),
+            'opcode'      => 0,
+            'product_id'  => 'product-2',
+            'amount'      => '10.00',
+            'cf'          => 'foo',
+            'ip_address'  => '127.0.0.1',
+            'pan'         => $card->getNumber(),
+            'cardholder'  => $card->getName(),
+            'exp_month'   => $card->getExpiryMonth(),
+            'exp_year'    => $card->getExpiryYear(),
+            'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
-            'token' => $token,
+            'token'       => $token,
         );
 
         $this->assertSame($expected, $data);
@@ -75,6 +75,7 @@ class PurchaseRequestTest extends TestCase
 
     /**
      * @dataProvider amounts
+     *
      * @param $amount
      */
     public function testGetRequestToken($amount)
@@ -91,7 +92,7 @@ class PurchaseRequestTest extends TestCase
             ->setAmount($amount)
             ->setTransactionId($transactionId);
 
-        $token = md5($merchantId . $productId . $amount . $transactionId . $secretWord);
+        $token = md5($merchantId.$productId.$amount.$transactionId.$secretWord);
 
         $this->assertSame($token, $this->request->getRequestToken());
     }
@@ -101,12 +102,12 @@ class PurchaseRequestTest extends TestCase
         $this->setMockHttpResponse('PurchaseFailure.txt');
 
         $card = new CreditCard(array(
-            'firstName' => 'CARD',
-            'lastName' => 'HOLDER',
-            'number' => '4000000000000002',
+            'firstName'   => 'CARD',
+            'lastName'    => 'HOLDER',
+            'number'      => '4000000000000002',
             'expiryMonth' => 12,
-            'expiryYear' => '2999',
-            'cvv' => 123,
+            'expiryYear'  => '2999',
+            'cvv'         => 123,
         ));
 
         $this->request
