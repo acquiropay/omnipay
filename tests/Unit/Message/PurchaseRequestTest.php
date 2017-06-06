@@ -30,7 +30,8 @@ class PurchaseRequestTest extends TestCase
             ->setAmount('10.00')
             ->setCard($card = new CreditCard($this->getValidCard()))
             ->setTransactionId('foo')
-            ->setClientIp('127.0.0.1');
+            ->setClientIp('127.0.0.1')
+            ->setReturnUrl('http://merchant-site.app');
 
         $data = $this->request->getData();
 
@@ -97,6 +98,46 @@ class PurchaseRequestTest extends TestCase
         $this->assertSame($token, $this->request->getRequestToken());
     }
 
+    public function testSend3DSecureSuccess()
+    {
+        $this->setMockHttpResponse('Purchase3DSecureSuccess.txt');
+
+        $card = new CreditCard(array(
+            'firstName' => 'CARD',
+            'lastName' => 'HOLDER',
+            'number' => '4000000000000002',
+            'expiryMonth' => 12,
+            'expiryYear' => '2999',
+            'cvv' => 123,
+        ));
+
+        $this->request
+            ->setTestMode(true)
+            ->setAmount('10.00')
+            ->setCard($card)
+            ->setTransactionId($transactionId = uniqid())
+            ->setClientIp('127.0.0.1')
+            ->setReturnUrl('http://merchant-site.app');
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isRedirect());
+        $this->assertSame(
+            'https://3dstest.mdmbank.ru/way4acs/pa?id=WTa6m3WZTTo6Ry9ZBdq9ig',
+            $response->getRedirectUrl()
+        );
+        $this->assertSame('POST', $response->getRedirectMethod());
+        $this->assertSame(
+            array('PaReq' => 'foo', 'MD' => 'bar', 'TermUrl' => 'http://merchant-site.app'),
+            $response->getRedirectData()
+        );
+
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response->getRedirectResponse());
+        $this->assertNotNull($response->getTransactionReference());
+        $this->assertSame('3DSECURE', $response->getStatus());
+    }
+
     public function testSendError()
     {
         $this->setMockHttpResponse('PurchaseFailure.txt');
@@ -115,7 +156,8 @@ class PurchaseRequestTest extends TestCase
             ->setAmount('10.00')
             ->setCard($card)
             ->setTransactionId($transactionId = uniqid())
-            ->setClientIp('127.0.0.1');
+            ->setClientIp('127.0.0.1')
+            ->setReturnUrl('http://merchant-site.app');
 
         $response = $this->request->send();
 

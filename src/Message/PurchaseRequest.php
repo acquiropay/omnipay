@@ -84,7 +84,8 @@ class PurchaseRequest extends AuthorizeRequest
             'amount',
             'card',
             'transactionId',
-            'clientIp'
+            'clientIp',
+            'returnUrl'
         );
 
         $card = $this->getCard();
