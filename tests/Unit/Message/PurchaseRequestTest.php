@@ -101,12 +101,12 @@ class PurchaseRequestTest extends TestCase
         $this->setMockHttpResponse('Purchase3DSecureSuccess.txt');
 
         $card = new CreditCard(array(
-            'firstName' => 'CARD',
-            'lastName' => 'HOLDER',
-            'number' => '4000000000000002',
+            'firstName'   => 'CARD',
+            'lastName'    => 'HOLDER',
+            'number'      => '4000000000000002',
             'expiryMonth' => 12,
-            'expiryYear' => '2999',
-            'cvv' => 123,
+            'expiryYear'  => '2999',
+            'cvv'         => 123,
         ));
 
         $this->request
@@ -141,12 +141,12 @@ class PurchaseRequestTest extends TestCase
         $this->setMockHttpResponse('PurchaseSuccess.txt');
 
         $card = new CreditCard(array(
-            'firstName' => 'CARD',
-            'lastName' => 'HOLDER',
-            'number' => '4000000000000002',
+            'firstName'   => 'CARD',
+            'lastName'    => 'HOLDER',
+            'number'      => '4000000000000002',
             'expiryMonth' => 12,
-            'expiryYear' => '2999',
-            'cvv' => 123,
+            'expiryYear'  => '2999',
+            'cvv'         => 123,
         ));
 
         $this->request
