@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Omnipay\AcquiroPay\Tests\Unit\Message;
 
 use Omnipay\AcquiroPay\Message\PurchaseRequest;
