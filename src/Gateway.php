@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AcquiroPay Gateway
+ * AcquiroPay Gateway.
  */
 
 namespace Omnipay\AcquiroPay;
@@ -28,6 +28,7 @@ class Gateway extends AbstractGateway
      * Get gateway display name.
      *
      * This can be used by carts to get the display name for each gateway.
+     *
      * @return string
      */
     public function getName()
@@ -44,7 +45,7 @@ class Gateway extends AbstractGateway
     {
         return array(
             'merchantId' => '',
-            'productId' => '',
+            'productId'  => '',
             'secretWord' => '',
         );
     }
@@ -63,6 +64,7 @@ class Gateway extends AbstractGateway
      * Set a merchant id.
      *
      * @param string $value
+     *
      * @return $this
      */
     public function setMerchantId($value)
@@ -84,6 +86,7 @@ class Gateway extends AbstractGateway
      * Set a merchant's product id.
      *
      * @param string $value
+     *
      * @return $this
      */
     public function setProductId($value)
@@ -105,6 +108,7 @@ class Gateway extends AbstractGateway
      * Set a secret word.
      *
      * @param string $value
+     *
      * @return $this
      */
     public function setSecretWord($value)
@@ -113,7 +117,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Authorize request
+     * Authorize request.
      *
      * An Authorize request is similar to a purchase request but the
      * charge issues an authorization (or pre-authorization), and no money
@@ -133,6 +137,7 @@ class Gateway extends AbstractGateway
      * Handle return from off-site gateways after authorization.
      *
      * @param array $options
+     *
      * @return CompleteAuthorizeRequest|RequestInterface
      */
     public function completeAuthorize(array $options = array())

@@ -2,9 +2,8 @@
 
 namespace Omnipay\AcquiroPay\Message;
 
-
 /**
- * Complete Authorize Request
+ * Complete Authorize Request.
  *
  * @method Response send()
  */
@@ -54,7 +53,6 @@ class CompleteAuthorizeRequest extends AbstractRequest
         return $this->setParameter('PaRes', $value);
     }
 
-
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -66,11 +64,11 @@ class CompleteAuthorizeRequest extends AbstractRequest
         $this->validate('transactionReference', 'MD', 'PaRes');
 
         return array(
-            'opcode' => 3,
+            'opcode'     => 3,
             'payment_id' => $this->getTransactionReference(),
-            'PaRes' => $this->getPaRes(),
-            'MD' => $this->getMD(),
-            'token' => $this->getRequestToken(),
+            'PaRes'      => $this->getPaRes(),
+            'MD'         => $this->getMD(),
+            'token'      => $this->getRequestToken(),
         );
     }
 
@@ -83,8 +81,8 @@ class CompleteAuthorizeRequest extends AbstractRequest
     {
         return md5(
             $this->getMerchantId()
-            . $this->getTransactionReference()
-            . $this->getSecretWord()
+            .$this->getTransactionReference()
+            .$this->getSecretWord()
         );
     }
 }

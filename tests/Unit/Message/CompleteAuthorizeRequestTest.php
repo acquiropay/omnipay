@@ -27,11 +27,11 @@ class CompleteAuthorizeRequestTest extends TestCase
             ->setTransactionReference($transactionReference);
 
         $expected = array(
-            'opcode' => 3,
+            'opcode'     => 3,
             'payment_id' => $transactionReference,
-            'PaRes' => $paRes,
-            'MD' => $md,
-            'token' => $this->request->getRequestToken(),
+            'PaRes'      => $paRes,
+            'MD'         => $md,
+            'token'      => $this->request->getRequestToken(),
         );
 
         $this->assertSame($expected, $this->request->getData());
@@ -48,7 +48,7 @@ class CompleteAuthorizeRequestTest extends TestCase
             ->setSecretWord($secretWord)
             ->setTransactionReference($transactionReference);
 
-        $token = md5($merchantId . $transactionReference . $secretWord);
+        $token = md5($merchantId.$transactionReference.$secretWord);
 
         $this->assertSame($token, $this->request->getRequestToken());
     }
