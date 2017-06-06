@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Omnipay\AcquiroPay\Message;
 
 /**
- * Capture Request
+ * Capture Request.
  *
  * @method Response send()
  */
 class CaptureRequest extends AbstractRequest
 {
-
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -23,9 +22,9 @@ class CaptureRequest extends AbstractRequest
         $this->validate('transactionReference');
 
         return array(
-            'opcode' => 13,
+            'opcode'     => 13,
             'payment_id' => $this->getTransactionReference(),
-            'token' => $this->getRequestToken(),
+            'token'      => $this->getRequestToken(),
         );
     }
 
@@ -38,8 +37,8 @@ class CaptureRequest extends AbstractRequest
     {
         return md5(
             $this->getMerchantId()
-            . $this->getTransactionReference()
-            . $this->getSecretWord()
+            .$this->getTransactionReference()
+            .$this->getSecretWord()
         );
     }
 }
