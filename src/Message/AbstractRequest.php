@@ -99,15 +99,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('secretWord', $value);
     }
 
-    /**
-     * Get a request token.
-     *
-     * @return string
-     */
-    public function getRequestToken()
-    {
-        return md5($this->getMerchantId() . $this->getProductId() . (float)$this->getAmount() . $this->getTransactionId() . $this->getSecretWord());
-    }
 
     /**
      * Send the request with specified data
@@ -158,4 +149,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         return $this->response = new Response($this, $data);
     }
+
+    /**
+     * Get a request token.
+     *
+     * @return string
+     */
+    abstract public function getRequestToken();
 }

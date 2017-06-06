@@ -37,6 +37,22 @@ class CompleteAuthorizeRequestTest extends TestCase
         $this->assertSame($expected, $this->request->getData());
     }
 
+    public function testGetRequestToken()
+    {
+        $merchantId = mt_rand(1, 1000);
+        $secretWord = uniqid();
+        $transactionId = uniqid();
+
+        $this->request
+            ->setMerchantId($merchantId)
+            ->setSecretWord($secretWord)
+            ->setTransactionId($transactionId);
+
+        $token = md5($merchantId . $transactionId . $secretWord);
+
+        $this->assertSame($token, $this->request->getRequestToken());
+    }
+
     public function testSendPreauthorizationSuccess()
     {
         $this->setMockHttpResponse('CompleteAuthorizePreauthorizationSuccess.txt');

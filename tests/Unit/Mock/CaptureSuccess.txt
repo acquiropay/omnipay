@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/xml; charset=utf-8
+Status: 200 OK
+
+<response>
+    <payment_id>9144998fe98e49e7b1c6e17e86e1e872</payment_id>
+    <status>OK</status>
+    <extended_id>4e95257132434fbf9bc0f19eaf08cffa</extended_id>
+    <extended_status>CAPTURE</extended_status>
+    <transaction_status>CAPTURE</transaction_status>
+    <datetime>2017-06-06 10:33:27+0000</datetime>
+    <duplicate>false</duplicate>
+    <additional>
+        <reestr_id></reestr_id>
+        <date_post></date_post>
+        <id>9144998fe98e49e7b1c6e17e86e1e872</id>
+        <pp_identity>card_master_card</pp_identity>
+    </additional>
+</response>

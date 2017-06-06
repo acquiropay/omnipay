@@ -7,6 +7,7 @@
 namespace Omnipay\AcquiroPay;
 
 use Omnipay\AcquiroPay\Message\AuthorizeRequest;
+use Omnipay\AcquiroPay\Message\CaptureRequest;
 use Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
@@ -129,12 +130,28 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Handle return from off-site gateways after authorization.
+     *
      * @param array $options
      * @return CompleteAuthorizeRequest|RequestInterface
      */
     public function completeAuthorize(array $options = array())
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest', $options);
+    }
+
+    /**
+     * Capture Request.
+     *
+     * Use this request to capture and process a previously created authorization.
+     *
+     * @param array $options
+     *
+     * @return CaptureRequest|RequestInterface
+     */
+    public function capture(array $options = array())
+    {
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\CaptureRequest', $options);
     }
 
     public function __call($name, $arguments)

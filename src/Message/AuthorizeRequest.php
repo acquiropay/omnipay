@@ -123,4 +123,14 @@ class AuthorizeRequest extends AbstractRequest
 
         return $data;
     }
+
+    /**
+     * Get a request token.
+     *
+     * @return string
+     */
+    public function getRequestToken()
+    {
+        return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getSecretWord());
+    }
 }

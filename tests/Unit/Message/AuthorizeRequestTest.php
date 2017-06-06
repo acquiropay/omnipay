@@ -58,6 +58,29 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('https://example.com/callback', $data['cb_url']);
     }
 
+    /**
+     * @dataProvider amounts
+     * @param $amount
+     */
+    public function testGetRequestToken($amount)
+    {
+        $merchantId = mt_rand(1, 1000);
+        $productId = mt_rand(1, 1000);
+        $secretWord = uniqid();
+        $transactionId = uniqid();
+
+        $this->request
+            ->setMerchantId($merchantId)
+            ->setProductId($productId)
+            ->setSecretWord($secretWord)
+            ->setAmount($amount)
+            ->setTransactionId($transactionId);
+
+        $token = md5($merchantId . $productId . $amount . $transactionId . $secretWord);
+
+        $this->assertSame($token, $this->request->getRequestToken());
+    }
+
     public function testSendPreauthorizationSuccess()
     {
         $this->setMockHttpResponse('AuthorizePreauthorizationSuccess.txt');
@@ -149,5 +172,15 @@ class AuthorizeRequestTest extends TestCase
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
+    }
+
+    public function amounts()
+    {
+        return array(
+            array('10.00'),
+            array('10.50'),
+            array('14500.00'),
+            array('11500.53'),
+        );
     }
 }
