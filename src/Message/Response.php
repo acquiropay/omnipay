@@ -6,7 +6,7 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
- * Response
+ * Response.
  */
 class Response extends AbstractResponse implements RedirectResponseInterface
 {
@@ -19,7 +19,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         $parent = parent::getData();
 
-        return json_decode(json_encode((array)$parent), true);
+        return json_decode(json_encode((array) $parent), true);
     }
 
     /**
@@ -37,7 +37,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     /**
      * Is the response successful?
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {
@@ -51,7 +51,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     /**
      * Does the response require a redirect?
      *
-     * @return boolean
+     * @return bool
      */
     public function isRedirect()
     {
@@ -64,7 +64,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     }
 
     /**
-     * Gateway Reference
+     * Gateway Reference.
      *
      * @return null|string A reference provided by the gateway to represent this transaction
      */
@@ -74,7 +74,6 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
         return isset($data['extended_id']) ? $data['extended_id'] : null;
     }
-
 
     /**
      * Gets the redirect target url.
@@ -111,8 +110,8 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         $request = $this->getRequest()->getParameters();
 
         return array(
-            'PaReq' => $data['additional']['secure3d']['retransmit']['PaReq'],
-            'MD' => $data['additional']['secure3d']['retransmit']['MD'],
+            'PaReq'   => $data['additional']['secure3d']['retransmit']['PaReq'],
+            'MD'      => $data['additional']['secure3d']['retransmit']['MD'],
             'TermUrl' => $request['returnUrl'],
         );
     }

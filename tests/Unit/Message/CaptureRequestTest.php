@@ -26,9 +26,9 @@ class CaptureRequestTest extends TestCase
         $data = $this->request->getData();
 
         $expected = array(
-            'opcode' => 13,
+            'opcode'     => 13,
             'payment_id' => 'foo',
-            'token' => $this->request->getRequestToken(),
+            'token'      => $this->request->getRequestToken(),
         );
 
         $this->assertSame($expected, $data);
@@ -45,7 +45,7 @@ class CaptureRequestTest extends TestCase
             ->setSecretWord($secretWord)
             ->setTransactionReference($transactionReference);
 
-        $token = md5($merchantId . $transactionReference . $secretWord);
+        $token = md5($merchantId.$transactionReference.$secretWord);
 
         $this->assertSame($token, $this->request->getRequestToken());
     }

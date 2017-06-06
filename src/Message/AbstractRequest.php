@@ -7,7 +7,7 @@ use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 
 /**
- * AcquiroPay Abstract Request
+ * AcquiroPay Abstract Request.
  *
  * This is the parent class for all AcquiroPay requests.
  */
@@ -42,9 +42,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @param string $value
      *
-     * @return BaseAbstractRequest|AbstractRequest
-     *
      * @throws RuntimeException
+     *
+     * @return BaseAbstractRequest|AbstractRequest
      */
     public function setMerchantId($value)
     {
@@ -66,9 +66,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @param string $value
      *
-     * @return BaseAbstractRequest|AbstractRequest
-     *
      * @throws RuntimeException
+     *
+     * @return BaseAbstractRequest|AbstractRequest
      */
     public function setProductId($value)
     {
@@ -90,9 +90,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @param string $value
      *
-     * @return BaseAbstractRequest
-     *
      * @throws RuntimeException
+     *
+     * @return BaseAbstractRequest
      */
     public function setSecretWord($value)
     {
@@ -100,9 +100,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Send the request with specified data
+     * Send the request with specified data.
      *
-     * @param  mixed $data The data to send
+     * @param mixed $data The data to send
      *
      * @return ResponseInterface
      */
@@ -142,6 +142,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Create response.
      *
      * @param $data
+     *
      * @return Response
      */
     protected function createResponse($data)
