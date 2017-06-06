@@ -10,11 +10,28 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class Response extends AbstractResponse implements RedirectResponseInterface
 {
+    /**
+     * Get the response data.
+     *
+     * @return mixed
+     */
     public function getData()
     {
         $parent = parent::getData();
 
         return json_decode(json_encode((array)$parent), true);
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        $data = $this->getData();
+
+        return isset($data['extended_status']) ? $data['extended_status'] : null;
     }
 
     /**
@@ -26,7 +43,9 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         $data = $this->getData();
 
-        return isset($data['status']) && $data['status'] !== 'KO';
+        return
+            (isset($data['status']) && $data['status'] !== 'KO') &&
+            (isset($data['duplicate']) && $data['duplicate'] !== 'true');
     }
 
     /**
@@ -53,11 +72,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         $data = $this->getData();
 
-        if (isset($data['extended_id'])) {
-            return $data['extended_id'];
-        }
-
-        return null;
+        return isset($data['extended_id']) ? $data['extended_id'] : null;
     }
 
 
@@ -93,10 +108,12 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     public function getRedirectData()
     {
         $data = $this->getData();
+        $request = $this->getRequest()->getParameters();
 
         return array(
             'PaReq' => $data['additional']['secure3d']['retransmit']['PaReq'],
             'MD' => $data['additional']['secure3d']['retransmit']['MD'],
+            'TermUrl' => $request['returnUrl'],
         );
     }
 }

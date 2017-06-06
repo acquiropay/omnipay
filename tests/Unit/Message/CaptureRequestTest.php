@@ -21,7 +21,7 @@ class CaptureRequestTest extends TestCase
 
     public function testGetData()
     {
-        $this->request->setTransactionId('foo');
+        $this->request->setTransactionReference('foo');
 
         $data = $this->request->getData();
 
@@ -38,14 +38,14 @@ class CaptureRequestTest extends TestCase
     {
         $merchantId = mt_rand(1, 1000);
         $secretWord = uniqid();
-        $transactionId = uniqid();
+        $transactionReference = uniqid();
 
         $this->request
             ->setMerchantId($merchantId)
             ->setSecretWord($secretWord)
-            ->setTransactionId($transactionId);
+            ->setTransactionReference($transactionReference);
 
-        $token = md5($merchantId . $transactionId . $secretWord);
+        $token = md5($merchantId . $transactionReference . $secretWord);
 
         $this->assertSame($token, $this->request->getRequestToken());
     }
@@ -54,27 +54,25 @@ class CaptureRequestTest extends TestCase
     {
         $this->setMockHttpResponse('CaptureSuccess.txt');
 
-        $this->request->setTransactionId('foo');
+        $this->request->setTransactionReference('foo');
 
         $response = $this->request->send();
-        $data = $response->getData();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertSame('4e95257132434fbf9bc0f19eaf08cffa', $response->getTransactionReference());
-        $this->assertSame('CAPTURE', $data['extended_status']);
+        $this->assertSame('CAPTURE', $response->getStatus());
     }
 
     public function testSendFailure()
     {
         $this->setMockHttpResponse('CaptureFailure.txt');
 
-        $this->request->setTransactionId('foo');
+        $this->request->setTransactionReference('foo');
 
         $response = $this->request->send();
-        $data = $response->getData();
 
         $this->assertFalse($response->isSuccessful());
         $this->assertSame('4e95257132434fbf9bc0f19eaf08cffa', $response->getTransactionReference());
-        $this->assertSame('DECLINE', $data['extended_status']);
+        $this->assertSame('DECLINE', $response->getStatus());
     }
 }

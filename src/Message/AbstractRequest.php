@@ -99,7 +99,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('secretWord', $value);
     }
 
-
     /**
      * Send the request with specified data
      *

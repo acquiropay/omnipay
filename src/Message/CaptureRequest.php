@@ -20,11 +20,11 @@ class CaptureRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('transactionId');
+        $this->validate('transactionReference');
 
         return array(
             'opcode' => 13,
-            'payment_id' => $this->getTransactionId(),
+            'payment_id' => $this->getTransactionReference(),
             'token' => $this->getRequestToken(),
         );
     }
@@ -38,7 +38,7 @@ class CaptureRequest extends AbstractRequest
     {
         return md5(
             $this->getMerchantId()
-            . $this->getTransactionId()
+            . $this->getTransactionReference()
             . $this->getSecretWord()
         );
     }

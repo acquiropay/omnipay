@@ -19,16 +19,16 @@ class CompleteAuthorizeRequestTest extends TestCase
     {
         $md = uniqid('test_', true);
         $paRes = uniqid('test_', true);
-        $paymentId = mt_rand(1, 100);
+        $transactionReference = mt_rand(1, 100);
 
         $this->request
             ->setMD($md)
             ->setPaRes($paRes)
-            ->setTransactionId($paymentId);
+            ->setTransactionReference($transactionReference);
 
         $expected = array(
             'opcode' => 3,
-            'payment_id' => $paymentId,
+            'payment_id' => $transactionReference,
             'PaRes' => $paRes,
             'MD' => $md,
             'token' => $this->request->getRequestToken(),
@@ -41,14 +41,14 @@ class CompleteAuthorizeRequestTest extends TestCase
     {
         $merchantId = mt_rand(1, 1000);
         $secretWord = uniqid();
-        $transactionId = uniqid();
+        $transactionReference = uniqid();
 
         $this->request
             ->setMerchantId($merchantId)
             ->setSecretWord($secretWord)
-            ->setTransactionId($transactionId);
+            ->setTransactionReference($transactionReference);
 
-        $token = md5($merchantId . $transactionId . $secretWord);
+        $token = md5($merchantId . $transactionReference . $secretWord);
 
         $this->assertSame($token, $this->request->getRequestToken());
     }
@@ -60,12 +60,11 @@ class CompleteAuthorizeRequestTest extends TestCase
         $this->request
             ->setMD('foo')
             ->setPaRes('bar')
-            ->setTransactionId(mt_rand(1, 100));
+            ->setTransactionReference(mt_rand(1, 100));
 
         $response = $this->request->send();
-        $data = $response->getData();
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('PREAUTHORIZATION', $data['extended_status']);
+        $this->assertSame('PREAUTHORIZATION', $response->getStatus());
     }
 }

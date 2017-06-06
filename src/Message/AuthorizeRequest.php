@@ -87,7 +87,8 @@ class AuthorizeRequest extends AbstractRequest
             'amount',
             'card',
             'transactionId',
-            'clientIp'
+            'clientIp',
+            'returnUrl'
         );
 
         $card = $this->getCard();
@@ -97,7 +98,7 @@ class AuthorizeRequest extends AbstractRequest
         $data = array(
             'opcode' => 0,
             'product_id' => $this->getProductId(),
-            'amount' => (float)$this->getAmount(),
+            'amount' => $this->getAmount(),
             'cf' => $this->getTransactionId(),
             'ip_address' => $this->getClientIp(),
             'pan' => $card->getNumber(),
