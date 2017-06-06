@@ -26,12 +26,12 @@
       "Omnipay\\AcquiroPay\\Tests\\": "tests"
     }
   },
-  "scripts": {
-    "test": "phpunit"
-  },
   "extra": {
     "branch-alias": {
       "dev-master": "1.0-dev"
     }
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }
