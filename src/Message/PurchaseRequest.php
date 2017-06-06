@@ -5,6 +5,27 @@ namespace Omnipay\AcquiroPay\Message;
 class PurchaseRequest extends AuthorizeRequest
 {
     /**
+     * Get phone.
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->getParameter('phone');
+    }
+
+    /**
+     * Set phone.
+     *
+     * @param string $value
+     * @return static|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function setPhone($value)
+    {
+        return $this->setParameter('phone', $value);
+    }
+
+    /**
      * Get custom field 2.
      *
      * @return string
@@ -78,41 +99,65 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function getData()
     {
-        $this->validate(
-            'amount',
-            'card',
-            'transactionId',
-            'clientIp',
-            'returnUrl'
-        );
+        if ($this->getCardReference() !== null) {
+            $this->validate(
+                'amount',
+                'card',
+                'cardReference',
+                'transactionId',
+                'clientIp',
+                'returnUrl'
+            );
 
-        $card = $this->getCard();
+            $data = array(
+                'opcode' => 21,
+                'product_id' => $this->getProductId(),
+                'payment_id' => $this->getCardReference(),
+                'amount' => $this->getAmount(),
+                'cf' => $this->getTransactionId(),
+                'ip_address' => $this->getClientIp(),
+                'cvv' => $this->getCard()->getCvv(),
+                'pp_identity' => 'card',
+                'token' => $this->getRequestToken(),
+            );
+        } else {
+            $this->validate(
+                'amount',
+                'card',
+                'transactionId',
+                'clientIp',
+                'returnUrl'
+            );
 
-        $card->validate();
+            $card = $this->getCard();
 
-        $data = array(
-            'opcode'      => 0,
-            'product_id'  => $this->getProductId(),
-            'amount'      => $this->getAmount(),
-            'cf'          => $this->getTransactionId(),
-            'ip_address'  => $this->getClientIp(),
-            'pan'         => $card->getNumber(),
-            'cardholder'  => $card->getName(),
-            'exp_month'   => $card->getExpiryMonth(),
-            'exp_year'    => $card->getExpiryYear(),
-            'cvv'         => $card->getCvv(),
-            'pp_identity' => 'card',
-            'token'       => $this->getRequestToken(),
-        );
+            $card->validate();
 
+            $data = array(
+                'opcode' => 0,
+                'product_id' => $this->getProductId(),
+                'amount' => $this->getAmount(),
+                'cf' => $this->getTransactionId(),
+                'ip_address' => $this->getClientIp(),
+                'pan' => $card->getNumber(),
+                'cardholder' => $card->getName(),
+                'exp_month' => $card->getExpiryMonth(),
+                'exp_year' => $card->getExpiryYear(),
+                'cvv' => $card->getCvv(),
+                'pp_identity' => 'card',
+                'token' => $this->getRequestToken(),
+            );
+        }
+
+        if ($this->getPhone()) {
+            $data['phone'] = $this->getPhone();
+        }
         if ($this->getCf2()) {
             $data['cf2'] = $this->getCf2();
         }
-
         if ($this->getCf3()) {
             $data['cf3'] = $this->getCf3();
         }
-
         if ($this->getCallbackUrl()) {
             $data['cb_url'] = $this->getCallbackUrl();
         }
@@ -127,6 +172,7 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function getRequestToken()
     {
-        return md5($this->getMerchantId().$this->getProductId().$this->getAmount().$this->getTransactionId().$this->getSecretWord());
+
+        return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getPhone() . $this->getSecretWord());
     }
 }

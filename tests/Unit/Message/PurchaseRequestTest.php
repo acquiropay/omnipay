@@ -18,7 +18,63 @@ class PurchaseRequestTest extends TestCase
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
     }
 
-    public function testGetData()
+    public function testGetDataWithCardReference()
+    {
+        // Firstly, we test data without optional parameters
+        $this->request
+            ->setMerchantId('merchant-1')
+            ->setProductId('product-2')
+            ->setSecretWord('secret-3')
+            ->setAmount('10.00')
+            ->setCard($card = new CreditCard(array('cvv' => rand(100, 999))))
+            ->setCardReference('foo')
+            ->setTransactionId('bar')
+            ->setClientIp('127.0.0.1')
+            ->setReturnUrl('http://merchant-site.app');
+
+        $data = $this->request->getData();
+
+        $token = md5('merchant-1'.'product-2'.'10.00'.'bar'.'secret-3');
+
+        $expected = array(
+            'opcode'      => 21,
+            'product_id'  => 'product-2',
+            'payment_id'  => 'foo',
+            'amount'      => '10.00',
+            'cf'          => 'bar',
+            'ip_address'  => '127.0.0.1',
+            'cvv'         => $card->getCvv(),
+            'pp_identity' => 'card',
+            'token'       => $token,
+        );
+
+        $this->assertSame($expected, $data);
+
+        // Ensure that optional parameters not in data array
+        $this->assertArrayNotHasKey('phone', $data);
+        $this->assertArrayNotHasKey('cf2', $data);
+        $this->assertArrayNotHasKey('cf3', $data);
+        $this->assertArrayNotHasKey('cb_url', $data);
+
+        // Now we set optional parameters and check them
+        $this->request
+            ->setPhone('+74951234567')
+            ->setCf2('cf2_foo')
+            ->setCf3('cf3_foo')
+            ->setCallbackUrl('https://merchant-site.app/callback');
+
+        $data = $this->request->getData();
+
+        $expected['phone'] = '+74951234567';
+        $expected['cf2'] = 'cf2_foo';
+        $expected['cf3'] = 'cf3_foo';
+        $expected['cb_url'] = 'https://merchant-site.app/callback';
+        $expected['token'] = md5('merchant-1'.'product-2'.'10.00'.'bar'.'+74951234567'.'secret-3');
+
+        $this->assertSame($expected, $data);
+    }
+
+    public function testGetDataWithCard()
     {
         // Firstly, we test data without optional parameters
         $this->request
@@ -53,21 +109,25 @@ class PurchaseRequestTest extends TestCase
         $this->assertSame($expected, $data);
 
         // Ensure that optional parameters not in data array
+        $this->assertArrayNotHasKey('phone', $data);
         $this->assertArrayNotHasKey('cf2', $data);
         $this->assertArrayNotHasKey('cf3', $data);
         $this->assertArrayNotHasKey('cb_url', $data);
 
         // Now we set optional parameters and check them
         $this->request
+            ->setPhone('+74951234567')
             ->setCf2('cf2_foo')
             ->setCf3('cf3_foo')
             ->setCallbackUrl('https://merchant-site.app/callback');
 
         $data = $this->request->getData();
 
+        $expected['phone'] = '+74951234567';
         $expected['cf2'] = 'cf2_foo';
         $expected['cf3'] = 'cf3_foo';
         $expected['cb_url'] = 'https://merchant-site.app/callback';
+        $expected['token'] = md5('merchant-1'.'product-2'.'10.00'.'foo'.'+74951234567'.'secret-3');
 
         $this->assertSame($expected, $data);
     }
