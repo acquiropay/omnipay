@@ -1,5 +1,5 @@
 {
-  "name": "acquiropay/omnipay-acquiropay",
+  "name": "omnipay/acquiropay",
   "description": "AcquiroPay driver for the Omnipay payment processing library",
   "keywords": [
     "omnipay",
