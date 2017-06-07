@@ -47,4 +47,21 @@ class GatewayTest extends GatewayTestCase
             $this->assertSame($value, $request->$getter());
         }
     }
+
+    /**
+     * Converts a string to camel case
+     *
+     * @param string $str
+     * @return string
+     */
+    public function camelCase($str)
+    {
+        return preg_replace_callback(
+            '/_([a-z])/',
+            function ($match) {
+                return strtoupper($match[1]);
+            },
+            $str
+        );
+    }
 }
