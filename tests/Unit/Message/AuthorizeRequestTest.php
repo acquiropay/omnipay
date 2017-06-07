@@ -33,8 +33,6 @@ class AuthorizeRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $token = md5('merchant-1'.'product-2'.'10.00'.'foo'.'secret-3');
-
         $expected = array(
             'opcode'      => 0,
             'product_id'  => 'product-2',
@@ -47,27 +45,31 @@ class AuthorizeRequestTest extends TestCase
             'exp_year'    => $card->getExpiryYear(),
             'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
-            'token'       => $token,
+            'token'       => md5('merchant-1'.'product-2'.'10.00'.'foo'.'secret-3'),
         );
 
         $this->assertSame($expected, $data);
 
         // Ensure that optional parameters not in data array
+        $this->assertArrayNotHasKey('phone', $data);
         $this->assertArrayNotHasKey('cf2', $data);
         $this->assertArrayNotHasKey('cf3', $data);
         $this->assertArrayNotHasKey('cb_url', $data);
 
         // Now we set optional parameters and check them
         $this->request
+            ->setPhone('+74951234567')
             ->setCf2('cf2_foo')
             ->setCf3('cf3_foo')
             ->setCallbackUrl('https://merchant-site.app/callback');
 
         $data = $this->request->getData();
 
+        $expected['phone'] = '+74951234567';
         $expected['cf2'] = 'cf2_foo';
         $expected['cf3'] = 'cf3_foo';
         $expected['cb_url'] = 'https://merchant-site.app/callback';
+        $expected['token'] = md5('merchant-1'.'product-2'.'10.00'.'foo'.'+74951234567'.'secret-3');
 
         $this->assertSame($expected, $data);
     }
