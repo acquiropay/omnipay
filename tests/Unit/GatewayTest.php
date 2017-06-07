@@ -49,9 +49,10 @@ class GatewayTest extends GatewayTestCase
     }
 
     /**
-     * Converts a string to camel case
+     * Converts a string to camel case.
      *
      * @param string $str
+     *
      * @return string
      */
     public function camelCase($str)
