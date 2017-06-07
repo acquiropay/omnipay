@@ -132,7 +132,7 @@ class AuthorizeRequest extends AbstractRequest
             'token'       => $this->getRequestToken(),
         );
 
-        if($this->getPhone()) {
+        if ($this->getPhone()) {
             $data['phone'] = $this->getPhone();
         }
         if ($this->getCf2()) {

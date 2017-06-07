@@ -21,10 +21,10 @@ class GatewayTest extends GatewayTestCase
     public function testAuthorize()
     {
         $options = array(
-            'amount' => '10.00',
-            'card' => new CreditCard($this->getValidCard()),
+            'amount'        => '10.00',
+            'card'          => new CreditCard($this->getValidCard()),
             'transactionId' => uniqid('test_', true),
-            'clientIp' => '127.0.0.1',
+            'clientIp'      => '127.0.0.1',
         );
 
         $request = $this->gateway->authorize($options);
@@ -37,8 +37,8 @@ class GatewayTest extends GatewayTestCase
     {
         foreach ($this->gateway->getDefaultParameters() as $key => $default) {
             // set property on gateway
-            $getter = 'get' . ucfirst($this->camelCase($key));
-            $setter = 'set' . ucfirst($this->camelCase($key));
+            $getter = 'get'.ucfirst($this->camelCase($key));
+            $setter = 'set'.ucfirst($this->camelCase($key));
             $value = uniqid();
             $this->gateway->$setter($value);
 
