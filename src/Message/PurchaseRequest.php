@@ -172,7 +172,6 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function getRequestToken()
     {
-
         return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getPhone() . $this->getSecretWord());
     }
 }
