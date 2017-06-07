@@ -177,7 +177,7 @@ class Gateway extends AbstractGateway
     /**
      * Complete purchase request.
      *
-     * Handle return from off-site gateways after purchase
+     * Handle return from off-site gateways after purchase.
      *
      * @param array $options
      *
@@ -191,7 +191,7 @@ class Gateway extends AbstractGateway
     /**
      * Refund request.
      *
-     * Refund an already processed transaction
+     * Refund an already processed transaction.
      *
      * @param array $options
      *
@@ -199,5 +199,19 @@ class Gateway extends AbstractGateway
      */
     public function refund(array $options = array()) {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\RefundRequest', $options);
+    }
+
+    /**
+     * Void request.
+     *
+     * Generally can only be called up to 24 hours after submitting a transaction.
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
+     */
+    public function void(array $options = array())
+    {
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\VoidRequest', $options);
     }
 }

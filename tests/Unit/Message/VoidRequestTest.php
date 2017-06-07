@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Omnipay\AcquiroPay\Tests\Unit\Message;
 
-use Omnipay\AcquiroPay\Message\RefundRequest;
+use Omnipay\AcquiroPay\Message\VoidRequest;
 use Omnipay\Tests\TestCase;
 
-class RefundRequestTest extends TestCase
+class VoidRequestTest extends TestCase
 {
-    /** @var RefundRequest */
+    /** @var VoidRequest */
     private $request;
 
     protected function setUp()
     {
-        $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
     }
 
     public function testGetData()
@@ -43,23 +43,22 @@ class RefundRequestTest extends TestCase
         $this->assertSame($token, $this->request->getRequestToken());
     }
 
-    public function testSendSuccess() {
-        $this->setMockHttpResponse('RefundSuccess.txt');
+    public function testSendSuccess()
+    {
+        $this->setMockHttpResponse('VoidSuccess.txt');
 
-        $this->request
-            ->setTransactionReference('foo')
-            ->setAmount('15.50');
+        $this->request->setTransactionReference('foo');
 
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertSame('43314449d66a4ab1bc474aaca4171d5a', $response->getTransactionReference());
+        $this->assertSame('e014b11a43a840e599f3b51f6900d0c9', $response->getTransactionReference());
         $this->assertSame('REFUND', $response->getStatus());
     }
 
-    public function testSendError()
+    public function testSendFailure()
     {
-        $this->setMockHttpResponse('RefundFailure.txt');
+        $this->setMockHttpResponse('VoidFailure.txt');
 
         $this->request->setTransactionReference('foo');
 

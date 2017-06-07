@@ -57,7 +57,7 @@ class CaptureRequestTest extends TestCase
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertSame('4e95257132434fbf9bc0f19eaf08cffa', $response->getTransactionReference());
+        $this->assertSame('9144998fe98e49e7b1c6e17e86e1e872', $response->getTransactionReference());
         $this->assertSame('CAPTURE', $response->getStatus());
     }
 
@@ -70,7 +70,7 @@ class CaptureRequestTest extends TestCase
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
-        $this->assertSame('4e95257132434fbf9bc0f19eaf08cffa', $response->getTransactionReference());
+        $this->assertSame('9144998fe98e49e7b1c6e17e86e1e872', $response->getTransactionReference());
         $this->assertSame('DECLINE', $response->getStatus());
     }
 }

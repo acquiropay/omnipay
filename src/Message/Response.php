@@ -84,7 +84,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         $data = $this->getData();
 
-        return isset($data['extended_id']) ? $data['extended_id'] : null;
+        return isset($data['payment_id']) ? $data['payment_id'] : null;
     }
 
     /**
