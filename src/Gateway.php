@@ -197,7 +197,8 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
      */
-    public function refund(array $options = array()) {
+    public function refund(array $options = array())
+    {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\RefundRequest', $options);
     }
 

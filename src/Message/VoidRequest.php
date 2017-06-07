@@ -22,9 +22,9 @@ class VoidRequest extends AbstractRequest
         $this->validate('transactionReference');
 
         return array(
-            'opcode' => 1,
+            'opcode'     => 1,
             'payment_id' => $this->getTransactionReference(),
-            'token' => $this->getRequestToken(),
+            'token'      => $this->getRequestToken(),
         );
     }
 
@@ -35,6 +35,6 @@ class VoidRequest extends AbstractRequest
      */
     public function getRequestToken()
     {
-        return md5($this->getMerchantId() . $this->getTransactionReference() . $this->getAmount() . $this->getSecretWord());
+        return md5($this->getMerchantId().$this->getTransactionReference().$this->getAmount().$this->getSecretWord());
     }
 }

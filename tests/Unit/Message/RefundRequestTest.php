@@ -22,9 +22,9 @@ class RefundRequestTest extends TestCase
         $this->request->setTransactionReference('foo');
 
         $expected = array(
-            'opcode' => 1,
+            'opcode'     => 1,
             'payment_id' => 'foo',
-            'token' => $this->request->getRequestToken(),
+            'token'      => $this->request->getRequestToken(),
         );
 
         $this->assertSame($expected, $this->request->getData());
@@ -43,7 +43,8 @@ class RefundRequestTest extends TestCase
         $this->assertSame($token, $this->request->getRequestToken());
     }
 
-    public function testSendSuccess() {
+    public function testSendSuccess()
+    {
         $this->setMockHttpResponse('RefundSuccess.txt');
 
         $this->request
