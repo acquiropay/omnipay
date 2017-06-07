@@ -188,25 +188,16 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\AcquiroPay\Message\CompletePurchaseRequest', $options);
     }
 
-    public function __call($name, $arguments)
-    {
-        // AUTHORIZE - 0
-        // COMPLETE AUTHORIZE - 3
-        // CAPTURE - 13
-
-        // PURCHASE - 0
-        // COMPLETE PURCHASE - 3
-
-        // REFUND - 1
-        // VOID - 1
-
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface purchase(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
+    /**
+     * Refund request.
+     *
+     * Refund an already processed transaction
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
+     */
+    public function refund(array $options = array()) {
+        return $this->createRequest('\Omnipay\AcquiroPay\Message\RefundRequest', $options);
     }
 }

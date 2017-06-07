@@ -2,6 +2,11 @@
 
 namespace Omnipay\AcquiroPay\Message;
 
+/**
+ * Purchase Request.
+ *
+ * @method Response send()
+ */
 class PurchaseRequest extends AuthorizeRequest
 {
     /**

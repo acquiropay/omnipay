@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/xml; charset=utf-8
+Status: 200 OK
+
+<response>
+    <payment_id>43314449d66a4ab1bc474aaca4171d5a</payment_id>
+    <status>CANCEL</status>
+    <extended_id>fab8d3f0cb3d475aa41ba26711e70be5</extended_id>
+    <extended_status>REFUND</extended_status>
+    <transaction_status>REFUND</transaction_status>
+    <datetime>2017-06-07 09:23:58+0000</datetime>
+    <duplicate>false</duplicate>
+    <additional>
+        <reestr_id></reestr_id>
+        <date_post></date_post>
+    </additional>
+</response>

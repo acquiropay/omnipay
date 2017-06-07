@@ -23,6 +23,18 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     }
 
     /**
+     * Response Message
+     *
+     * @return null|string A response message from the payment gateway
+     */
+    public function getMessage()
+    {
+        $data = $this->getData();
+
+        return isset($data['description']) ? $data['description'] : null;
+    }
+
+    /**
      * Get status.
      *
      * @return string|null
