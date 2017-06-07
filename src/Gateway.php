@@ -223,7 +223,8 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
      */
-    public function status(array $options = array()) {
+    public function status(array $options = array())
+    {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\StatusRequest', $options);
     }
 }

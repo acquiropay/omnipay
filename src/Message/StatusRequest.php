@@ -20,9 +20,9 @@ class StatusRequest extends AbstractRequest
         $this->validate('transactionReference');
 
         return array(
-            'opcode' => 2,
+            'opcode'     => 2,
             'payment_id' => $this->getTransactionReference(),
-            'token' => $this->getRequestToken(),
+            'token'      => $this->getRequestToken(),
         );
     }
 
