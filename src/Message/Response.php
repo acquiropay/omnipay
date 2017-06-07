@@ -23,7 +23,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     }
 
     /**
-     * Response Message
+     * Response Message.
      *
      * @return null|string A response message from the payment gateway
      */
