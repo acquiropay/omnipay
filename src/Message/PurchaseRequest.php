@@ -69,7 +69,7 @@ class PurchaseRequest extends AuthorizeRequest
      * @param string $value
      *
      * @return static|\Omnipay\Common\Message\AbstractRequest
-    */
+     */
     public function setCf3($value)
     {
         return $this->setParameter('cf3', $value);
