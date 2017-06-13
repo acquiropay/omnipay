@@ -36,10 +36,10 @@ class PurchaseRequestTest extends TestCase
         $token = md5('merchant-1'.'product-2'.'10.00'.'bar'.'secret-3');
 
         $expected = array(
-            'opcode'      => 4,
-            'product_id'  => 'product-2',
+            'opcode'       => 4,
+            'product_id'   => 'product-2',
             'apple_token'  => urlencode(base64_encode(json_encode('foo'))),
-            'token'       => $token,
+            'token'        => $token,
         );
 
         $this->assertSame($expected, $data);
