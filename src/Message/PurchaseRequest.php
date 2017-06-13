@@ -2,6 +2,8 @@
 
 namespace Omnipay\AcquiroPay\Message;
 
+use Omnipay\Common\Message\AbstractRequest;
+
 /**
  * Purchase Request.
  *
@@ -24,7 +26,7 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|\Omnipay\Common\Message\AbstractRequest
+     * @return static|AbstractRequest
      */
     public function setPhone($value)
     {
@@ -46,7 +48,7 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|\Omnipay\Common\Message\AbstractRequest
+     * @return static|AbstractRequest
      */
     public function setCf2($value)
     {
@@ -68,7 +70,7 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|\Omnipay\Common\Message\AbstractRequest
+     * @return static|AbstractRequest
      */
     public function setCf3($value)
     {
@@ -90,11 +92,32 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|\Omnipay\Common\Message\AbstractRequest
+     * @return static|AbstractRequest
      */
     public function setCallbackUrl($value)
     {
         return $this->setParameter('callbackUrl', $value);
+    }
+
+    /**
+     * Get apple reference.
+     *
+     * @return string
+     */
+    public function getAppleReference()
+    {
+        return $this->getParameter('appleReference');
+    }
+
+    /**
+     * Set apple reference.
+     *
+     * @param string $value
+     * @return static|AbstractRequest
+     */
+    public function setAppleReference($value)
+    {
+        return $this->setParameter('appleReference', $value);
     }
 
     /**
@@ -105,7 +128,16 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function getData()
     {
-        if ($this->getCardReference() !== null) {
+        if ($this->getAppleReference() !== null) {
+            $this->validate('amount', 'appleReference');
+
+            $data = array(
+                'opcode' => 4,
+                'product_id' => $this->getProductId(),
+                'apple_token' => urlencode(base64_encode(json_encode($this->getAppleReference()))),
+                'token' => $this->getRequestToken(),
+            );
+        } elseif ($this->getCardReference() !== null) {
             $this->validate(
                 'amount',
                 'card',
@@ -116,15 +148,15 @@ class PurchaseRequest extends AuthorizeRequest
             );
 
             $data = array(
-                'opcode'      => 21,
-                'product_id'  => $this->getProductId(),
-                'payment_id'  => $this->getCardReference(),
-                'amount'      => $this->getAmount(),
-                'cf'          => $this->getTransactionId(),
-                'ip_address'  => $this->getClientIp(),
-                'cvv'         => $this->getCard()->getCvv(),
+                'opcode' => 21,
+                'product_id' => $this->getProductId(),
+                'payment_id' => $this->getCardReference(),
+                'amount' => $this->getAmount(),
+                'cf' => $this->getTransactionId(),
+                'ip_address' => $this->getClientIp(),
+                'cvv' => $this->getCard()->getCvv(),
                 'pp_identity' => 'card',
-                'token'       => $this->getRequestToken(),
+                'token' => $this->getRequestToken(),
             );
         } else {
             $this->validate(
@@ -140,18 +172,18 @@ class PurchaseRequest extends AuthorizeRequest
             $card->validate();
 
             $data = array(
-                'opcode'      => 0,
-                'product_id'  => $this->getProductId(),
-                'amount'      => $this->getAmount(),
-                'cf'          => $this->getTransactionId(),
-                'ip_address'  => $this->getClientIp(),
-                'pan'         => $card->getNumber(),
-                'cardholder'  => $card->getName(),
-                'exp_month'   => $card->getExpiryMonth(),
-                'exp_year'    => $card->getExpiryYear(),
-                'cvv'         => $card->getCvv(),
+                'opcode' => 0,
+                'product_id' => $this->getProductId(),
+                'amount' => $this->getAmount(),
+                'cf' => $this->getTransactionId(),
+                'ip_address' => $this->getClientIp(),
+                'pan' => $card->getNumber(),
+                'cardholder' => $card->getName(),
+                'exp_month' => $card->getExpiryMonth(),
+                'exp_year' => $card->getExpiryYear(),
+                'cvv' => $card->getCvv(),
                 'pp_identity' => 'card',
-                'token'       => $this->getRequestToken(),
+                'token' => $this->getRequestToken(),
             );
         }
 
@@ -178,6 +210,6 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function getRequestToken()
     {
-        return md5($this->getMerchantId().$this->getProductId().$this->getAmount().$this->getTransactionId().$this->getPhone().$this->getSecretWord());
+        return md5($this->getMerchantId() . $this->getProductId() . $this->getAmount() . $this->getTransactionId() . $this->getPhone() . $this->getSecretWord());
     }
 }

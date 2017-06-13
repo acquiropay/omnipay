@@ -18,6 +18,56 @@ class PurchaseRequestTest extends TestCase
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
     }
 
+    public function testGetDataWithAppleReference()
+    {
+        // Firstly, we test data without optional parameters
+        $this->request
+            ->setAppleReference('foo')
+            ->setMerchantId('merchant-1')
+            ->setProductId('product-2')
+            ->setSecretWord('secret-3')
+            ->setAmount('10.00')
+            ->setTransactionId('bar')
+            ->setClientIp('127.0.0.1')
+            ->setReturnUrl('http://merchant-site.app');
+
+        $data = $this->request->getData();
+
+        $token = md5('merchant-1'.'product-2'.'10.00'.'bar'.'secret-3');
+
+        $expected = array(
+            'opcode'      => 4,
+            'product_id'  => 'product-2',
+            'apple_token'  => urlencode(base64_encode(json_encode('foo'))),
+            'token'       => $token,
+        );
+
+        $this->assertSame($expected, $data);
+
+        // Ensure that optional parameters not in data array
+        $this->assertArrayNotHasKey('phone', $data);
+        $this->assertArrayNotHasKey('cf2', $data);
+        $this->assertArrayNotHasKey('cf3', $data);
+        $this->assertArrayNotHasKey('cb_url', $data);
+
+        // Now we set optional parameters and check them
+        $this->request
+            ->setPhone('+74951234567')
+            ->setCf2('cf2_foo')
+            ->setCf3('cf3_foo')
+            ->setCallbackUrl('https://merchant-site.app/callback');
+
+        $data = $this->request->getData();
+
+        $expected['phone'] = '+74951234567';
+        $expected['cf2'] = 'cf2_foo';
+        $expected['cf3'] = 'cf3_foo';
+        $expected['cb_url'] = 'https://merchant-site.app/callback';
+        $expected['token'] = md5('merchant-1'.'product-2'.'10.00'.'bar'.'+74951234567'.'secret-3');
+
+        $this->assertSame($expected, $data);
+    }
+
     public function testGetDataWithCardReference()
     {
         // Firstly, we test data without optional parameters
