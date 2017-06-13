@@ -2,8 +2,6 @@
 
 namespace Omnipay\AcquiroPay\Message;
 
-use Omnipay\Common\Message\AbstractRequest;
-
 /**
  * Purchase Request.
  *
@@ -26,7 +24,7 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setPhone($value)
     {
@@ -48,7 +46,7 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setCf2($value)
     {
@@ -70,8 +68,8 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|AbstractRequest
-     */
+     * @return static|\Omnipay\Common\Message\AbstractRequest
+    */
     public function setCf3($value)
     {
         return $this->setParameter('cf3', $value);
@@ -92,7 +90,7 @@ class PurchaseRequest extends AuthorizeRequest
      *
      * @param string $value
      *
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setCallbackUrl($value)
     {
@@ -113,7 +111,7 @@ class PurchaseRequest extends AuthorizeRequest
      * Set apple reference.
      *
      * @param string $value
-     * @return static|AbstractRequest
+     * @return static|\Omnipay\Common\Message\AbstractRequest
      */
     public function setAppleReference($value)
     {
