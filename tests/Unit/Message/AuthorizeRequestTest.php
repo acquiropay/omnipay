@@ -11,11 +11,14 @@ class AuthorizeRequestTest extends TestCase
     /** @var AuthorizeRequest */
     private $request;
 
+    private $productId;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->productId = mt_rand(1, 1000);
     }
 
     public function testGetData()
@@ -23,7 +26,7 @@ class AuthorizeRequestTest extends TestCase
         // Firstly, we test data without optional parameters
         $this->request
             ->setMerchantId('merchant-1')
-            ->setProductId('product-2')
+            ->setProductId($this->productId)
             ->setSecretWord('secret-3')
             ->setAmount('10.00')
             ->setCard($card = new CreditCard($this->getValidCard()))
@@ -35,7 +38,7 @@ class AuthorizeRequestTest extends TestCase
 
         $expected = array(
             'opcode'      => 0,
-            'product_id'  => 'product-2',
+            'product_id'  => $this->productId,
             'amount'      => '10.00',
             'cf'          => 'foo',
             'ip_address'  => '127.0.0.1',
@@ -45,7 +48,7 @@ class AuthorizeRequestTest extends TestCase
             'exp_year'    => $card->getExpiryYear(),
             'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
-            'token'       => md5('merchant-1'.'product-2'.'10.00'.'foo'.'secret-3'),
+            'token'       => md5('merchant-1'.$this->productId.'10.00'.'foo'.'secret-3'),
         );
 
         $this->assertSame($expected, $data);
@@ -69,7 +72,7 @@ class AuthorizeRequestTest extends TestCase
         $expected['cf2'] = 'cf2_foo';
         $expected['cf3'] = 'cf3_foo';
         $expected['cb_url'] = 'https://merchant-site.app/callback';
-        $expected['token'] = md5('merchant-1'.'product-2'.'10.00'.'foo'.'+74951234567'.'secret-3');
+        $expected['token'] = md5('merchant-1'.$this->productId.'10.00'.'foo'.'+74951234567'.'secret-3');
 
         $this->assertSame($expected, $data);
     }
@@ -82,18 +85,17 @@ class AuthorizeRequestTest extends TestCase
     public function testGetRequestToken($amount)
     {
         $merchantId = mt_rand(1, 1000);
-        $productId = mt_rand(1, 1000);
         $secretWord = uniqid();
         $transactionId = uniqid();
 
         $this->request
             ->setMerchantId($merchantId)
-            ->setProductId($productId)
+            ->setProductId($this->productId)
             ->setSecretWord($secretWord)
             ->setAmount($amount)
             ->setTransactionId($transactionId);
 
-        $token = md5($merchantId.$productId.$amount.$transactionId.$secretWord);
+        $token = md5($merchantId.$this->productId.$amount.$transactionId.$secretWord);
 
         $this->assertSame($token, $this->request->getRequestToken());
     }
@@ -112,6 +114,7 @@ class AuthorizeRequestTest extends TestCase
         ));
 
         $this->request
+            ->setProductId($this->productId)
             ->setTestMode(true)
             ->setAmount('10.00')
             ->setCard($card)
@@ -141,6 +144,7 @@ class AuthorizeRequestTest extends TestCase
         ));
 
         $this->request
+            ->setProductId($this->productId)
             ->setTestMode(true)
             ->setAmount('10.00')
             ->setCard($card)
@@ -181,6 +185,7 @@ class AuthorizeRequestTest extends TestCase
         ));
 
         $this->request
+            ->setProductId($this->productId)
             ->setTestMode(true)
             ->setAmount('10.00')
             ->setCard($card)

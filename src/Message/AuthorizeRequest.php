@@ -110,7 +110,7 @@ class AuthorizeRequest extends AbstractRequest
             'card',
             'transactionId',
             'clientIp',
-            'returnUrl'
+            'productId'
         );
 
         $card = $this->getCard();

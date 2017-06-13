@@ -13,7 +13,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     /**
      * Get the response data.
      *
-     * @return mixed
+     * @return array
      */
     public function getData()
     {
