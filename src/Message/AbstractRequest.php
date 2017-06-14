@@ -110,19 +110,19 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         $url = $this->getEndpoint();
 
-        $options = array();
+        $body = [
+            'form_params' => $data,
+        ];
 
         if ($this->getTestMode()) {
-            $options = array(
+            $body = [
                 'verify' => false,
-            );
+            ];
         }
 
-        $httpResponse = $this->httpClient
-            ->post($url, array(), $data, $options)
-            ->send();
+        $response = $this->httpClient->post($url, [], $body);
 
-        $contents = $httpResponse->getBody(true);
+        $contents = (string)$response->getBody();
         $xml = simplexml_load_string($contents);
 
         return $this->createResponse($xml);
