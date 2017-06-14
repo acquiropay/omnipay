@@ -21,11 +21,11 @@ class StatusRequestTest extends TestCase
     {
         $this->request->setTransactionReference('foo');
 
-        $expected = array(
+        $expected = [
             'opcode'     => 2,
             'payment_id' => 'foo',
             'token'      => $this->request->getRequestToken(),
-        );
+        ];
 
         $this->assertSame($expected, $this->request->getData());
     }

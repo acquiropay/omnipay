@@ -117,7 +117,7 @@ class AuthorizeRequest extends AbstractRequest
 
         $card->validate();
 
-        $data = array(
+        $data = [
             'opcode'      => 0,
             'product_id'  => $this->getProductId(),
             'amount'      => $this->getAmount(),
@@ -130,7 +130,7 @@ class AuthorizeRequest extends AbstractRequest
             'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
             'token'       => $this->getRequestToken(),
-        );
+        ];
 
         if ($this->getPhone()) {
             $data['phone'] = $this->getPhone();

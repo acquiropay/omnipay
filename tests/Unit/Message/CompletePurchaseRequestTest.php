@@ -26,13 +26,13 @@ class CompletePurchaseRequestTest extends TestCase
             ->setPaRes($paRes)
             ->setTransactionReference($transactionReference);
 
-        $expected = array(
+        $expected = [
             'opcode'     => 3,
             'payment_id' => $transactionReference,
             'PaRes'      => $paRes,
             'MD'         => $md,
             'token'      => $this->request->getRequestToken(),
-        );
+        ];
 
         $this->assertSame($expected, $this->request->getData());
     }

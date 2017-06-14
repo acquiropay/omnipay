@@ -19,11 +19,11 @@ class RefundRequest extends AbstractRequest
     {
         $this->validate('transactionReference');
 
-        $data = array(
+        $data = [
             'opcode'     => 1,
             'payment_id' => $this->getTransactionReference(),
             'token'      => $this->getRequestToken(),
-        );
+        ];
 
         if ($this->getAmount()) {
             $data['amount'] = $this->getAmount();

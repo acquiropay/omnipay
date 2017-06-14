@@ -19,11 +19,11 @@ class VoidRequest extends AbstractRequest
     {
         $this->validate('transactionReference');
 
-        return array(
+        return [
             'opcode'     => 1,
             'payment_id' => $this->getTransactionReference(),
             'token'      => $this->getRequestToken(),
-        );
+        ];
     }
 
     /**

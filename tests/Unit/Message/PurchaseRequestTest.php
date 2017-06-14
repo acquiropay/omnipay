@@ -35,12 +35,12 @@ class PurchaseRequestTest extends TestCase
 
         $token = md5('merchant-1'.'product-2'.'10.00'.'bar'.'secret-3');
 
-        $expected = array(
+        $expected = [
             'opcode'       => 4,
             'product_id'   => 'product-2',
             'apple_token'  => urlencode(base64_encode(json_encode('foo'))),
             'token'        => $token,
-        );
+        ];
 
         $this->assertSame($expected, $data);
 
@@ -76,7 +76,7 @@ class PurchaseRequestTest extends TestCase
             ->setProductId('product-2')
             ->setSecretWord('secret-3')
             ->setAmount('10.00')
-            ->setCard($card = new CreditCard(array('cvv' => rand(100, 999))))
+            ->setCard($card = new CreditCard(['cvv' => rand(100, 999)]))
             ->setCardReference('foo')
             ->setTransactionId('bar')
             ->setClientIp('127.0.0.1')
@@ -86,7 +86,7 @@ class PurchaseRequestTest extends TestCase
 
         $token = md5('merchant-1'.'product-2'.'10.00'.'bar'.'secret-3');
 
-        $expected = array(
+        $expected = [
             'opcode'      => 21,
             'product_id'  => 'product-2',
             'payment_id'  => 'foo',
@@ -96,7 +96,7 @@ class PurchaseRequestTest extends TestCase
             'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
             'token'       => $token,
-        );
+        ];
 
         $this->assertSame($expected, $data);
 
@@ -141,7 +141,7 @@ class PurchaseRequestTest extends TestCase
 
         $token = md5('merchant-1'.'product-2'.'10.00'.'foo'.'secret-3');
 
-        $expected = array(
+        $expected = [
             'opcode'      => 0,
             'product_id'  => 'product-2',
             'amount'      => '10.00',
@@ -154,7 +154,7 @@ class PurchaseRequestTest extends TestCase
             'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
             'token'       => $token,
-        );
+        ];
 
         $this->assertSame($expected, $data);
 
@@ -210,14 +210,14 @@ class PurchaseRequestTest extends TestCase
     {
         $this->setMockHttpResponse('Purchase3DSecureSuccess.txt');
 
-        $card = new CreditCard(array(
+        $card = new CreditCard([
             'firstName'   => 'CARD',
             'lastName'    => 'HOLDER',
             'number'      => '4000000000000002',
             'expiryMonth' => 12,
             'expiryYear'  => '2999',
             'cvv'         => 123,
-        ));
+        ]);
 
         $this->request
             ->setTestMode(true)
@@ -237,7 +237,7 @@ class PurchaseRequestTest extends TestCase
         );
         $this->assertSame('POST', $response->getRedirectMethod());
         $this->assertSame(
-            array('PaReq' => 'foo', 'MD' => 'bar', 'TermUrl' => 'http://merchant-site.app'),
+            ['PaReq' => 'foo', 'MD' => 'bar', 'TermUrl' => 'http://merchant-site.app'],
             $response->getRedirectData()
         );
 
@@ -250,14 +250,14 @@ class PurchaseRequestTest extends TestCase
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
 
-        $card = new CreditCard(array(
+        $card = new CreditCard([
             'firstName'   => 'CARD',
             'lastName'    => 'HOLDER',
             'number'      => '4000000000000002',
             'expiryMonth' => 12,
             'expiryYear'  => '2999',
             'cvv'         => 123,
-        ));
+        ]);
 
         $this->request
             ->setTestMode(true)
@@ -279,14 +279,14 @@ class PurchaseRequestTest extends TestCase
     {
         $this->setMockHttpResponse('PurchaseFailure.txt');
 
-        $card = new CreditCard(array(
+        $card = new CreditCard([
             'firstName'   => 'CARD',
             'lastName'    => 'HOLDER',
             'number'      => '4000000000000002',
             'expiryMonth' => 12,
             'expiryYear'  => '2999',
             'cvv'         => 123,
-        ));
+        ]);
 
         $this->request
             ->setTestMode(true)
@@ -304,11 +304,11 @@ class PurchaseRequestTest extends TestCase
 
     public function amounts()
     {
-        return array(
-            array('10.00'),
-            array('10.50'),
-            array('14500.00'),
-            array('11500.53'),
-        );
+        return [
+            ['10.00'],
+            ['10.50'],
+            ['14500.00'],
+            ['11500.53'],
+        ];
     }
 }

@@ -19,11 +19,11 @@ class VoidRequestTest extends TestCase
     {
         $this->request->setTransactionReference('foo');
 
-        $expected = array(
+        $expected = [
             'opcode'     => 1,
             'payment_id' => 'foo',
             'token'      => $this->request->getRequestToken(),
-        );
+        ];
 
         $this->assertSame($expected, $this->request->getData());
     }
