@@ -1,27 +1,22 @@
 <?php
 
-/**
- * AcquiroPay Gateway.
- */
-
 namespace Omnipay\AcquiroPay;
 
 use Omnipay\AcquiroPay\Message\AuthorizeRequest;
 use Omnipay\AcquiroPay\Message\CaptureRequest;
 use Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest;
+use Omnipay\AcquiroPay\Message\CompletePurchaseRequest;
 use Omnipay\AcquiroPay\Message\PurchaseRequest;
+use Omnipay\AcquiroPay\Message\RefundRequest;
+use Omnipay\AcquiroPay\Message\StatusRequest;
+use Omnipay\AcquiroPay\Message\VoidRequest;
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Common\Message\AbstractRequest;
 
 /**
- * @method RequestInterface capture(array $options = array())
- * @method RequestInterface purchase(array $options = array())
- * @method RequestInterface completePurchase(array $options = array())
- * @method RequestInterface refund(array $options = array())
- * @method RequestInterface void(array $options = array())
- * @method RequestInterface createCard(array $options = array())
- * @method RequestInterface updateCard(array $options = array())
- * @method RequestInterface deleteCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
@@ -46,7 +41,7 @@ class Gateway extends AbstractGateway
     {
         return [
             'merchantId' => '',
-            'productId'  => '',
+            'productId' => '',
             'secretWord' => '',
         ];
     }
@@ -127,11 +122,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return AuthorizeRequest|RequestInterface
+     * @return AuthorizeRequest|AbstractRequest
      */
     public function authorize(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\AuthorizeRequest', $options);
+        return $this->createRequest(AuthorizeRequest::class, $options);
     }
 
     /**
@@ -139,11 +134,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return CompleteAuthorizeRequest|RequestInterface
+     * @return CompleteAuthorizeRequest|AbstractRequest
      */
     public function completeAuthorize(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest', $options);
+        return $this->createRequest(CompleteAuthorizeRequest::class, $options);
     }
 
     /**
@@ -153,11 +148,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return CaptureRequest|RequestInterface
+     * @return CaptureRequest|AbstractRequest
      */
     public function capture(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\CaptureRequest', $options);
+        return $this->createRequest(CaptureRequest::class, $options);
     }
 
     /**
@@ -167,11 +162,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return PurchaseRequest
+     * @return PurchaseRequest|AbstractRequest
      */
     public function purchase(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\PurchaseRequest', $options);
+        return $this->createRequest(PurchaseRequest::class, $options);
     }
 
     /**
@@ -181,11 +176,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return RequestInterface|void
+     * @return CompletePurchaseRequest|AbstractRequest
      */
     public function completePurchase(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\CompletePurchaseRequest', $options);
+        return $this->createRequest(CompletePurchaseRequest::class, $options);
     }
 
     /**
@@ -195,11 +190,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
+     * @return RefundRequest|AbstractRequest
      */
     public function refund(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\RefundRequest', $options);
+        return $this->createRequest(RefundRequest::class, $options);
     }
 
     /**
@@ -209,11 +204,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
+     * @return VoidRequest|AbstractRequest
      */
     public function void(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\VoidRequest', $options);
+        return $this->createRequest(VoidRequest::class, $options);
     }
 
     /**
@@ -221,10 +216,10 @@ class Gateway extends AbstractGateway
      *
      * @param array $options
      *
-     * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
+     * @return StatusRequest|AbstractRequest
      */
     public function status(array $options = [])
     {
-        return $this->createRequest('\Omnipay\AcquiroPay\Message\StatusRequest', $options);
+        return $this->createRequest(StatusRequest::class, $options);
     }
 }
