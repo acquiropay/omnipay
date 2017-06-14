@@ -41,7 +41,7 @@ class Gateway extends AbstractGateway
     {
         return [
             'merchantId' => '',
-            'productId' => '',
+            'productId'  => '',
             'secretWord' => '',
         ];
     }
