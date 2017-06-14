@@ -19,11 +19,11 @@ class CaptureRequest extends AbstractRequest
     {
         $this->validate('transactionReference');
 
-        return array(
+        return [
             'opcode'     => 13,
             'payment_id' => $this->getTransactionReference(),
             'token'      => $this->getRequestToken(),
-        );
+        ];
     }
 
     /**

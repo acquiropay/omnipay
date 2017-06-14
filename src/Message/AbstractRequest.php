@@ -122,7 +122,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $response = $this->httpClient->post($url, [], $body);
 
-        $contents = (string)$response->getBody();
+        $contents = (string) $response->getBody();
         $xml = simplexml_load_string($contents);
 
         return $this->createResponse($xml);

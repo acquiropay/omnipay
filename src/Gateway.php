@@ -44,11 +44,11 @@ class Gateway extends AbstractGateway
      */
     public function getDefaultParameters()
     {
-        return array(
+        return [
             'merchantId' => '',
             'productId'  => '',
             'secretWord' => '',
-        );
+        ];
     }
 
     /**
@@ -129,7 +129,7 @@ class Gateway extends AbstractGateway
      *
      * @return AuthorizeRequest|RequestInterface
      */
-    public function authorize(array $options = array())
+    public function authorize(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\AuthorizeRequest', $options);
     }
@@ -141,7 +141,7 @@ class Gateway extends AbstractGateway
      *
      * @return CompleteAuthorizeRequest|RequestInterface
      */
-    public function completeAuthorize(array $options = array())
+    public function completeAuthorize(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\CompleteAuthorizeRequest', $options);
     }
@@ -155,7 +155,7 @@ class Gateway extends AbstractGateway
      *
      * @return CaptureRequest|RequestInterface
      */
-    public function capture(array $options = array())
+    public function capture(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\CaptureRequest', $options);
     }
@@ -169,7 +169,7 @@ class Gateway extends AbstractGateway
      *
      * @return PurchaseRequest
      */
-    public function purchase(array $options = array())
+    public function purchase(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\PurchaseRequest', $options);
     }
@@ -183,7 +183,7 @@ class Gateway extends AbstractGateway
      *
      * @return RequestInterface|void
      */
-    public function completePurchase(array $options = array())
+    public function completePurchase(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\CompletePurchaseRequest', $options);
     }
@@ -197,7 +197,7 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
      */
-    public function refund(array $options = array())
+    public function refund(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\RefundRequest', $options);
     }
@@ -211,7 +211,7 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
      */
-    public function void(array $options = array())
+    public function void(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\VoidRequest', $options);
     }
@@ -223,7 +223,7 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\Common\Message\AbstractRequest|RequestInterface
      */
-    public function status(array $options = array())
+    public function status(array $options = [])
     {
         return $this->createRequest('\Omnipay\AcquiroPay\Message\StatusRequest', $options);
     }

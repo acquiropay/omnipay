@@ -121,10 +121,10 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         $data = $this->getData();
         $request = $this->getRequest()->getParameters();
 
-        return array(
+        return [
             'PaReq'   => $data['additional']['secure3d']['retransmit']['PaReq'],
             'MD'      => $data['additional']['secure3d']['retransmit']['MD'],
             'TermUrl' => $request['returnUrl'],
-        );
+        ];
     }
 }

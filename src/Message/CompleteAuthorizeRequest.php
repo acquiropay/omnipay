@@ -63,13 +63,13 @@ class CompleteAuthorizeRequest extends AbstractRequest
     {
         $this->validate('transactionReference', 'MD', 'PaRes');
 
-        return array(
+        return [
             'opcode'     => 3,
             'payment_id' => $this->getTransactionReference(),
             'PaRes'      => $this->getPaRes(),
             'MD'         => $this->getMD(),
             'token'      => $this->getRequestToken(),
-        );
+        ];
     }
 
     /**

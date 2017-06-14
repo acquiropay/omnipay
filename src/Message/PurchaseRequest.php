@@ -130,12 +130,12 @@ class PurchaseRequest extends AuthorizeRequest
         if ($this->getAppleReference() !== null) {
             $this->validate('amount', 'appleReference');
 
-            $data = array(
+            $data = [
                 'opcode'      => 4,
                 'product_id'  => $this->getProductId(),
                 'apple_token' => urlencode(base64_encode(json_encode($this->getAppleReference()))),
                 'token'       => $this->getRequestToken(),
-            );
+            ];
         } elseif ($this->getCardReference() !== null) {
             $this->validate(
                 'amount',
@@ -146,7 +146,7 @@ class PurchaseRequest extends AuthorizeRequest
                 'returnUrl'
             );
 
-            $data = array(
+            $data = [
                 'opcode'      => 21,
                 'product_id'  => $this->getProductId(),
                 'payment_id'  => $this->getCardReference(),
@@ -156,7 +156,7 @@ class PurchaseRequest extends AuthorizeRequest
                 'cvv'         => $this->getCard()->getCvv(),
                 'pp_identity' => 'card',
                 'token'       => $this->getRequestToken(),
-            );
+            ];
         } else {
             $this->validate(
                 'amount',
@@ -170,7 +170,7 @@ class PurchaseRequest extends AuthorizeRequest
 
             $card->validate();
 
-            $data = array(
+            $data = [
                 'opcode'      => 0,
                 'product_id'  => $this->getProductId(),
                 'amount'      => $this->getAmount(),
@@ -183,7 +183,7 @@ class PurchaseRequest extends AuthorizeRequest
                 'cvv'         => $card->getCvv(),
                 'pp_identity' => 'card',
                 'token'       => $this->getRequestToken(),
-            );
+            ];
         }
 
         if ($this->getPhone()) {

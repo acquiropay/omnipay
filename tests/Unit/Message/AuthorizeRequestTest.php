@@ -36,7 +36,7 @@ class AuthorizeRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $expected = array(
+        $expected = [
             'opcode'      => 0,
             'product_id'  => $this->productId,
             'amount'      => '10.00',
@@ -49,7 +49,7 @@ class AuthorizeRequestTest extends TestCase
             'cvv'         => $card->getCvv(),
             'pp_identity' => 'card',
             'token'       => md5('merchant-1'.$this->productId.'10.00'.'foo'.'secret-3'),
-        );
+        ];
 
         $this->assertSame($expected, $data);
 
@@ -104,14 +104,14 @@ class AuthorizeRequestTest extends TestCase
     {
         $this->setMockHttpResponse('AuthorizePreauthorizationSuccess.txt');
 
-        $card = new CreditCard(array(
+        $card = new CreditCard([
             'firstName'   => 'CARD',
             'lastName'    => 'HOLDER',
             'number'      => '4000000000000002',
             'expiryMonth' => 12,
             'expiryYear'  => '2999',
             'cvv'         => 123,
-        ));
+        ]);
 
         $this->request
             ->setProductId($this->productId)
@@ -134,14 +134,14 @@ class AuthorizeRequestTest extends TestCase
     {
         $this->setMockHttpResponse('Authorize3DSecureSuccess.txt');
 
-        $card = new CreditCard(array(
+        $card = new CreditCard([
             'firstName'   => 'CARD',
             'lastName'    => 'HOLDER',
             'number'      => '4000000000000002',
             'expiryMonth' => 12,
             'expiryYear'  => '2999',
             'cvv'         => 123,
-        ));
+        ]);
 
         $this->request
             ->setProductId($this->productId)
@@ -162,7 +162,7 @@ class AuthorizeRequestTest extends TestCase
         );
         $this->assertSame('POST', $response->getRedirectMethod());
         $this->assertSame(
-            array('PaReq' => 'foo', 'MD' => 'bar', 'TermUrl' => 'http://merchant-site.app'),
+            ['PaReq' => 'foo', 'MD' => 'bar', 'TermUrl' => 'http://merchant-site.app'],
             $response->getRedirectData()
         );
 
@@ -175,14 +175,14 @@ class AuthorizeRequestTest extends TestCase
     {
         $this->setMockHttpResponse('AuthorizeFailure.txt');
 
-        $card = new CreditCard(array(
+        $card = new CreditCard([
             'firstName'   => 'CARD',
             'lastName'    => 'HOLDER',
             'number'      => '4000000000000002',
             'expiryMonth' => 12,
             'expiryYear'  => '2999',
             'cvv'         => 123,
-        ));
+        ]);
 
         $this->request
             ->setProductId($this->productId)
@@ -200,11 +200,11 @@ class AuthorizeRequestTest extends TestCase
 
     public function amounts()
     {
-        return array(
-            array('10.00'),
-            array('10.50'),
-            array('14500.00'),
-            array('11500.53'),
-        );
+        return [
+            ['10.00'],
+            ['10.50'],
+            ['14500.00'],
+            ['11500.53'],
+        ];
     }
 }

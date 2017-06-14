@@ -23,11 +23,11 @@ class CaptureRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $expected = array(
+        $expected = [
             'opcode'     => 13,
             'payment_id' => 'foo',
             'token'      => $this->request->getRequestToken(),
-        );
+        ];
 
         $this->assertSame($expected, $data);
     }
